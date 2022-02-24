@@ -12,13 +12,15 @@ token = open('token.key', 'r').read().rstrip('\n')
 #TEST CURL for active station - curl -H "token:token" "https://www.ncdc.noaa.gov/cdo-web/api/v2/stations/GHCN:US1WAKG0188/?units=metric&includeStationLocation=true&includeStationName=true&startdate=2012-01-01&enddate=2021-12-31" > ~/Dropbox/EPCW/Projects/Koppen/sample.json
 #data codes - https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt
 
-station_list = open("stations/station_ids.txt", 'r').read().splitlines()
+station_list = open("stations/station_ids.txt", 'r').read().splitlines() #if you've had to start / stop the script, make sure to save a station_ids-COMPLETE.txt file
 df_filename = "data/station_data.csv"
-if os.path.exists('data/station_data.csv'):
-    os.rename('data/station_data.csv', 'data/station_data_old.csv')
-with open(df_filename, "w") as f:
-    f.write('"date","datatype","station","attributes","value"\n')
-    f.close()
+
+#comment out if you're running a repeat pull (as in you need to stop and restart the script)
+# if os.path.exists('data/station_data.csv'):
+#     os.rename('data/station_data.csv', 'data/station_data_old.csv')
+# with open(df_filename, "w") as f:
+#     f.write('"date","datatype","station","attributes","value"\n')
+#     f.close()
 
 dates = list(range(1982,2022)) #reminder: end date will be one year less than end of range
 
