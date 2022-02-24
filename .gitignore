@@ -4,6 +4,7 @@ sample/
 token.key
 .idea/
 *_old.*
+failfile.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

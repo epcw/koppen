@@ -4,6 +4,7 @@ from requests.structures import CaseInsensitiveDict
 import json
 import csv
 import os
+import sys
 
 token = open('token.key', 'r').read().rstrip('\n')
 
@@ -29,9 +30,17 @@ for s in station_list: #iterate over station list
 
         resp = requests.get(url, headers=headers)
         r = json.loads(resp.text) #don't stick this inside the try because when it fails, you know you've run out of requests for the day (10k/day)
-        try:
-            df = pd.json_normalize(r["results"]) #json_normalize takes a nested json and makes it a flat table
-            df.to_csv(df_filename, mode='a', index=False, quotechar='"', quoting=csv.QUOTE_ALL, header=False)
-            print("exporting " + s + " " + str(d))
-        except:
-            print("skipping " + s + " " + str(d)) #handle stations that are not available for the entire length of the pull
+        if resp.status_code == 429:
+            failfile = "failfile.txt"
+            failstring = s + " " + str(d)
+            with open(failfile, 'w') as ff:
+                ff.write(failstring)
+                ff.close()
+            sys.exit("limit reached")
+        else:
+            try:
+                df = pd.json_normalize(r["results"]) #json_normalize takes a nested json and makes it a flat table
+                df.to_csv(df_filename, mode='a', index=False, quotechar='"', quoting=csv.QUOTE_ALL, header=False)
+                print("exporting " + s + " " + str(d))
+            except:
+                print("skipping " + s + " " + str(d)) #handle stations that are not available for the entire length of the pull
