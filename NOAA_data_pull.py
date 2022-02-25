@@ -1,3 +1,8 @@
+#RUN THIS SECOND - after you have a list of station codes (expecting one code per line)
+#THIS SCRIPT pulls weather data for a given list of station codes (see NOAA_station_list_pull.py).  It's currently set to take total precipitation (PRCP) and average temp (TAVG) from the Global Summary of the Month dataset (GSOM).
+#documentation on how to use other datasets & measurements - https://www.ncdc.noaa.gov/cdo-web/webservices/v2
+#data codes - https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt
+
 import pandas as pd
 import requests
 from requests.structures import CaseInsensitiveDict
@@ -10,7 +15,7 @@ token = open('token.key', 'r').read().rstrip('\n')
 
 #TEST CURL for station data - curl -H "token:token" "https://www.ncdc.noaa.gov/cdo-web/api/v2/data?station=GHCN:US1WAKG0188&datasetid=GSOM&units=metric&includeStationLocation=true&includeStationName=true&startdate=1960-01-01&enddate=1960-12-31&datatypeid=TAVG,PRCP" > ~/Dropbox/EPCW/Projects/Koppen/sample.json
 #TEST CURL for active station - curl -H "token:token" "https://www.ncdc.noaa.gov/cdo-web/api/v2/stations/GHCN:US1WAKG0188/?units=metric&includeStationLocation=true&includeStationName=true&startdate=2012-01-01&enddate=2021-12-31" > ~/Dropbox/EPCW/Projects/Koppen/sample.json
-#data codes - https://www1.ncdc.noaa.gov/pub/data/ghcn/daily/readme.txt
+
 
 station_list = open("stations/station_ids.txt", 'r').read().splitlines() #if you've had to start / stop the script, make sure to save a station_ids-COMPLETE.txt file
 df_filename = "data/station_data.csv"
@@ -31,18 +36,25 @@ for s in station_list: #iterate over station list
         headers["token"] = token
 
         resp = requests.get(url, headers=headers)
-        r = json.loads(resp.text) #don't stick this inside the try because when it fails, you know you've run out of requests for the day (10k/day)
         if resp.status_code == 429:
             failfile = "failfile.txt"
-            failstring = s + " " + str(d)
+            failstring = "Status code 429. Limit reached on: " + s + " " + str(d)
             with open(failfile, 'w') as ff:
                 ff.write(failstring)
                 ff.close()
             sys.exit("limit reached")
-        else:
+        elif resp.status_code == 200:
+            r = json.loads(resp.text)  # don't stick this inside the try because when it fails, you know you've run out of requests for the day (10k/day)
             try:
                 df = pd.json_normalize(r["results"]) #json_normalize takes a nested json and makes it a flat table
                 df.to_csv(df_filename, mode='a', index=False, quotechar='"', quoting=csv.QUOTE_ALL, header=False)
                 print("exporting " + s + " " + str(d))
             except:
                 print("skipping " + s + " " + str(d)) #handle stations that are not available for the entire length of the pull
+        else:
+            failfile = "failfile.txt"
+            failstring = resp.status_code + " on: " + s + " " + str(d)
+            with open(failfile, 'w') as ff:
+                ff.write(failstring)
+                ff.close()
+            sys.exit(resp.status_code)

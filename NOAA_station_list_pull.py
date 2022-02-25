@@ -1,3 +1,7 @@
+#RUN THIS FIRST - probably only need to run once.
+#THIS SCRIPT pulls a list of station codes that lie within a given list of geographic boundaries and preps them for intake by NOAA_data_pull.py.  (currently this expects FIPS codes, so states or counties or Census tracts, but it can also be climate regions, countries, or whatever).
+#documentation on locations - https://www.ncdc.noaa.gov/cdo-web/webservices/v2#locations
+
 import pandas as pd
 import requests
 from requests.structures import CaseInsensitiveDict
