@@ -53,7 +53,7 @@ for s in station_list: #iterate over station list
                 print("skipping " + s + " " + str(d)) #handle stations that are not available for the entire length of the pull
         else:
             failfile = "failfile.txt"
-            failstring = resp.status_code + " on: " + s + " " + str(d)
+            failstring = str(resp.status_code) + " on: " + s + " " + str(d)
             with open(failfile, 'w') as ff:
                 ff.write(failstring)
                 ff.close()

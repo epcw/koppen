@@ -3,6 +3,7 @@
 
 import pandas as pd
 import csv
+import numpy as np
 
 df_filename = 'data/koppen_class.csv'
 
@@ -84,10 +85,111 @@ del df_prcp_summer_agg
 del df_prcp_agg
 del df_prcp
 
-#TODO: KOPPEN CLASS SEGMENTING BASED ON ABOVE DF_AGG
-
 #bring in the station location data
 df_agg = df_agg.merge(df_station_list, how="left", left_on = ['station'], right_on = ['station'])
+
+def koppen(s):
+    #run class B first because Arid climates can intersect with the other types, but we want B to take priority over the temp rules
+    if (((s['annual_prcp(r)'] < (10 * (2 * s['avg_annual_temp(t)']))) & (s['prcp_winter'] >= (2 * s['annual_prcp(r)'] / 3))) | ((s['annual_prcp(r)'] < (10 * ((2 * s['avg_annual_temp(t)']) + 28))) & (s['prcp_summer'] >= (2 * s['annual_prcp(r)'] / 3))) | ((s['annual_prcp(r)'] < (10 * ((2 * s['avg_annual_temp(t)']) + 14))))):
+        if (((s['annual_prcp(r)'] < (5 * (2 * s['avg_annual_temp(t)']))) & (s['prcp_winter'] >= (2 * s['annual_prcp(r)'] / 3))) | ((s['annual_prcp(r)'] < (5 * ((2 * s['avg_annual_temp(t)']) + 28))) & (s['prcp_summer'] >= (2 * s['annual_prcp(r)'] / 3))) | ((s['annual_prcp(r)'] < (5 * ((2 * s['avg_annual_temp(t)']) + 14))))):
+            if(s['avg_annual_temp(t)'] >= 18):
+                return 'BWh'
+            if (s['avg_annual_temp(t)'] < 18):
+                return 'BWk'
+        if (((s['annual_prcp(r)'] >= (5 * (2 * s['avg_annual_temp(t)']))) & (s['prcp_winter'] >= (2 * s['annual_prcp(r)'] / 3))) | ((s['annual_prcp(r)'] >= (5 * ((2 * s['avg_annual_temp(t)']) + 28))) & (s['prcp_summer'] >= (2 * s['annual_prcp(r)'] / 3))) | ((s['annual_prcp(r)'] >= (5 * ((2 * s['avg_annual_temp(t)']) + 14))))):
+            if(s['avg_annual_temp(t)'] >= 18):
+                return 'BSh'
+            if (s['avg_annual_temp(t)'] < 18):
+                return 'BSk'
+    elif (s['temp_coolest_mo'] >= 18):
+        if (s['prcp_driest_mo'] >= 60):
+            return 'Af'
+        if ((s['prcp_driest_mo'] < 60) & (s['prcp_driest_mo'] >= (100 - (s['annual_prcp(r)'] / 25)))):
+            return 'Am'
+        if ((s['prcp_driest_mo'] < 60) & (s['prcp_driest_mo'] < (100 - (s['annual_prcp(r)'] / 25)))):
+            return 'Aw'
+    elif ((s['temp_coolest_mo'] > 0) & (s['temp_coolest_mo'] < 18)):
+        if ((s['prcp_driest_mo_summer'] < 40) & (s['prcp_driest_mo_summer'] < (s['prcp_wettest_mo_winter'] / 3))):
+            if (s['temp_hottest_mo'] >= 22):
+                return 'Csa'
+            elif (s['num_mo_btw_10-22C'] >= 4):
+                return 'Csb'
+            elif (s['num_mo_btw_10-22C'] < 4):
+                return 'Csc'
+            else:
+                return 'Cs'
+        elif (s['prcp_driest_mo_winter'] < (s['prcp_wettest_mo_summer'] / 10)):
+            if (s['temp_hottest_mo'] >= 22):
+                return 'Cwa'
+            elif (s['num_mo_btw_10-22C'] >= 4):
+                return 'Cwb'
+            elif (s['num_mo_btw_10-22C'] < 4):
+                return 'Cwc'
+            else:
+                return 'Cw'
+        else:
+            if (s['temp_hottest_mo'] >= 22):
+                return 'Cfa'
+            elif (s['num_mo_btw_10-22C'] >= 4):
+                return 'Cfb'
+            elif (s['num_mo_btw_10-22C'] < 4):
+                return 'Cfc'
+            else:
+                return 'Cf'
+    elif ((s['temp_coolest_mo'] <= 0) & (s['temp_hottest_mo'] > 10)):
+        if ((s['prcp_driest_mo_summer'] < 40) & (s['prcp_driest_mo_summer'] < (s['prcp_wettest_mo_winter'] / 3))):
+            if (s['temp_hottest_mo'] >= 22):
+                return 'Dsa'
+            elif (s['num_mo_btw_10-22C'] >= 4):
+                return 'Dsb'
+            elif (s['temp_coldest_mo'] < -38):
+                return 'Dsd'
+            else:
+                return 'Dsc'
+        elif (s['prcp_driest_mo_winter'] < (s['prcp_wettest_mo_summer'] / 10)):
+            if (s['temp_hottest_mo'] >= 22):
+                return 'Dwa'
+            elif (s['num_mo_btw_10-22C'] >= 4):
+                return 'Dwb'
+            elif (s['temp_coldest_mo'] < -38):
+                return 'Dwd'
+            else:
+                return 'Dwc'
+        else:
+            if (s['temp_hottest_mo'] >= 22):
+                return 'Dfa'
+            elif (s['num_mo_btw_10-22C'] >= 4):
+                return 'Dfb'
+            elif (s['temp_coldest_mo'] < -38):
+                return 'Dfd'
+            else:
+                return 'Dfc'
+    elif (s['temp_hottest_mo'] < 10):
+        if (s['temp_hottest_mo'] > 0):
+            return 'ET'
+        if (s['temp_hottest_mo'] <= 0):
+            return 'EF'
+    elif (s['elevation'] > 1500):
+        return 'H'
+
+df_agg['koppen'] = df_agg.apply(koppen, axis=1)
+
+#TODO: KOPPEN CLASS NAME LABELING
+def koppen_name(s):
+    if (s['koppen'] == 'Dfa'):
+        return 'Boreal (no dry season, hot summer)'
+    elif (s['koppen'] == 'Dfb'):
+        return 'Boreal (no dry season, warm summer)'
+    elif (s['koppen'] == 'Dfd'):
+        return 'Boreal (no dry season, severe winters)'
+    elif (s['koppen'] == 'Dfc'):
+        return 'Boreal (no dry season, cold summer)'
+    elif (s['koppen'] == 'EF'):
+        return 'Ice cap'
+    elif (s['koppen'] == 'H'):
+        return 'Highland'
+
+df_agg['koppen_name'] = df_agg.apply(koppen_name, axis=1)
 
 df_agg.to_csv(df_filename, mode='a', index=False, quotechar='"', quoting=csv.QUOTE_ALL, header=True)
 print("exporting " + df_filename)
