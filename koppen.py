@@ -174,7 +174,6 @@ def koppen(s):
 
 df_agg['koppen'] = df_agg.apply(koppen, axis=1)
 
-#TODO: KOPPEN CLASS NAME LABELING
 def koppen_name(s):
     if (s['koppen'] == 'Af'):
         return 'Tropical Rainforest'
