@@ -3,11 +3,11 @@
 
 import pandas as pd
 import csv
-import numpy as np
+import os
 
 df_filename = 'data/koppen_class.csv'
 
-df = pd.read_csv('data/station_data_test.csv')
+df = pd.read_csv('data/station_data.csv')
 df['date'] = pd.to_datetime(df['date']) #converts the date string to datetime
 #df['date'] = df['date'].dt.date #drops the midnight timestamp - comment out if this is actually meaningful for you
 
@@ -30,7 +30,7 @@ df_temp['num_mo_btw_10-22C'] = 0
 df_temp.loc[(df['value'] > 10) & (df_temp['value'] < 22), 'num_mo_btw_10-22C'] = 1
 df_agg = df_temp.groupby(['station','year'])[['num_mo_btw_10-22C']].sum().reset_index()
 df_temp_agg = df_temp.groupby(['station','year'])[['value']].min().reset_index()
-df_temp_agg = df_temp_agg.rename(columns = {'value' : 'temp_coolest_mo'})
+df_temp_agg = df_temp_agg.rename(columns = {'value' : 'temp_coldest_mo'})
 df_agg = df_agg.merge(df_temp_agg, how = "outer", left_on = ['station','year'], right_on = ['station','year'])
 df_temp_agg = df_temp.groupby(['station','year'])[['value']].max().reset_index()
 df_temp_agg = df_temp_agg.rename(columns = {'value' : 'temp_hottest_mo'})
@@ -101,14 +101,14 @@ def koppen(s):
                 return 'BSh'
             if (s['avg_annual_temp(t)'] < 18):
                 return 'BSk'
-    elif (s['temp_coolest_mo'] >= 18):
+    elif (s['temp_coldest_mo'] >= 18):
         if (s['prcp_driest_mo'] >= 60):
             return 'Af'
         if ((s['prcp_driest_mo'] < 60) & (s['prcp_driest_mo'] >= (100 - (s['annual_prcp(r)'] / 25)))):
             return 'Am'
         if ((s['prcp_driest_mo'] < 60) & (s['prcp_driest_mo'] < (100 - (s['annual_prcp(r)'] / 25)))):
             return 'Aw'
-    elif ((s['temp_coolest_mo'] > 0) & (s['temp_coolest_mo'] < 18)):
+    elif ((s['temp_coldest_mo'] > 0) & (s['temp_coldest_mo'] < 18)):
         if ((s['prcp_driest_mo_summer'] < 40) & (s['prcp_driest_mo_summer'] < (s['prcp_wettest_mo_winter'] / 3))):
             if (s['temp_hottest_mo'] >= 22):
                 return 'Csa'
@@ -136,7 +136,7 @@ def koppen(s):
                 return 'Cfc'
             else:
                 return 'Cf'
-    elif ((s['temp_coolest_mo'] <= 0) & (s['temp_hottest_mo'] > 10)):
+    elif ((s['temp_coldest_mo'] <= 0) & (s['temp_hottest_mo'] > 10)):
         if ((s['prcp_driest_mo_summer'] < 40) & (s['prcp_driest_mo_summer'] < (s['prcp_wettest_mo_winter'] / 3))):
             if (s['temp_hottest_mo'] >= 22):
                 return 'Dsa'
@@ -176,22 +176,72 @@ df_agg['koppen'] = df_agg.apply(koppen, axis=1)
 
 #TODO: KOPPEN CLASS NAME LABELING
 def koppen_name(s):
-    if (s['koppen'] == 'Dfa'):
-        return 'Boreal (no dry season, hot summer)'
+    if (s['koppen'] == 'Af'):
+        return 'Tropical Rainforest'
+    if (s['koppen'] == 'Am'):
+        return 'Tropical Monsoon'
+    if (s['koppen'] == 'Aw'):
+        return 'Savannah'
+    elif (s['koppen'] == 'BWh'):
+        return 'Hot desert'
+    elif (s['koppen'] == 'BWk'):
+        return 'Cold desert'
+    elif (s['koppen'] == 'BSh'):
+        return 'Hot steppe'
+    elif (s['koppen'] == 'BSk'):
+        return 'Cold steppe'
+    elif (s['koppen'] == 'Csa'):
+        return 'Mediterranean hot (dry summer, hot summer)'
+    elif (s['koppen'] == 'Csb'):
+        return 'Mediterranean warm (dry summer, warm summer)'
+    elif (s['koppen'] == 'Csc'):
+        return 'Mediterranean cold (dry summer, cold summer)'
+    elif (s['koppen'] == 'Cfa'):
+        return 'Humid subtropical (no dry season, hot summer)'
+    elif (s['koppen'] == 'Cfb'):
+        return 'Oceanic (no dry season, warm summer)'
+    elif (s['koppen'] == 'Cfc'):
+        return 'Subpolar oceanic (no dry season, cold summer)'
+    elif (s['koppen'] == 'Cwa'):
+        return 'Subtropical (Dry winter, hot summer)'
+    elif (s['koppen'] == 'Cwb'):
+        return 'Subtropical highland (dry winter, warm summer)'
+    elif (s['koppen'] == 'Cwc'):
+        return 'Subtropical highland (dry winter, cold summer)'
+    elif (s['koppen'] == 'Dsa'):
+        return 'Continental (dry winter, hot summer)'
+    elif (s['koppen'] == 'Dwa'):
+        return 'Continental (dry summer, hot summer)'
+    elif (s['koppen'] == 'Dfa'):
+        return 'Continental (no dry season, hot summer)'
+    elif (s['koppen'] == 'Dsb'):
+        return 'Hemiboreal (dry summer, warm summer)'
+    elif (s['koppen'] == 'Dwb'):
+        return 'Hemiboreal (dry winter, warm summer)'
     elif (s['koppen'] == 'Dfb'):
-        return 'Boreal (no dry season, warm summer)'
-    elif (s['koppen'] == 'Dfd'):
-        return 'Boreal (no dry season, severe winters)'
+        return 'Hemiboreal (no dry season, warm summer)'
+    elif (s['koppen'] == 'Dsc'):
+        return 'Boreal (dry summer, cold summer)'
+    elif (s['koppen'] == 'Dwc'):
+        return 'Boreal (dry winter, cold summer)'
     elif (s['koppen'] == 'Dfc'):
         return 'Boreal (no dry season, cold summer)'
+    elif (s['koppen'] == 'Dsd'):
+        return 'Boreal (dry summer, severe winters)'
+    elif (s['koppen'] == 'Dwd'):
+        return 'Boreal (dry winter, severe winters)'
+    elif (s['koppen'] == 'Dfd'):
+        return 'Boreal (no dry season, severe winters)'
     elif (s['koppen'] == 'EF'):
         return 'Ice cap'
     elif (s['koppen'] == 'H'):
         return 'Highland'
 
 df_agg['koppen_name'] = df_agg.apply(koppen_name, axis=1)
+print("assigning Köppen classes")
 
-df_agg.to_csv(df_filename, mode='a', index=False, quotechar='"', quoting=csv.QUOTE_ALL, header=True)
+if os.path.exists('data/koppen_class.csv'):
+    os.rename('data/koppen_class.csv', 'data/koppen_class_old.csv')
+
+df_agg.to_csv(df_filename, index=False, quotechar='"', quoting=csv.QUOTE_ALL, header=True)
 print("exporting " + df_filename)
-
-#print(df)
