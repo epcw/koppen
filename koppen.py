@@ -90,13 +90,13 @@ df_agg = df_agg.merge(df_station_list, how="left", left_on = ['station'], right_
 
 def koppen(s):
     #run class B first because Arid climates can intersect with the other types, but we want B to take priority over the temp rules
-    if (((s['annual_prcp(r)'] < (10 * (2 * s['avg_annual_temp(t)']))) & (s['prcp_winter'] >= (2 * s['annual_prcp(r)'] / 3))) | ((s['annual_prcp(r)'] < (10 * ((2 * s['avg_annual_temp(t)']) + 28))) & (s['prcp_summer'] >= (2 * s['annual_prcp(r)'] / 3))) | ((s['annual_prcp(r)'] < (10 * ((2 * s['avg_annual_temp(t)']) + 14))))):
-        if (((s['annual_prcp(r)'] < (5 * (2 * s['avg_annual_temp(t)']))) & (s['prcp_winter'] >= (2 * s['annual_prcp(r)'] / 3))) | ((s['annual_prcp(r)'] < (5 * ((2 * s['avg_annual_temp(t)']) + 28))) & (s['prcp_summer'] >= (2 * s['annual_prcp(r)'] / 3))) | ((s['annual_prcp(r)'] < (5 * ((2 * s['avg_annual_temp(t)']) + 14))))):
+    if (((s['annual_prcp(r)'] < (10 * (2 * s['avg_annual_temp(t)']))) & (s['prcp_winter'] >= (.7 * s['annual_prcp(r)']))) | ((s['annual_prcp(r)'] < (10 * ((2 * s['avg_annual_temp(t)']) + 28))) & (s['prcp_summer'] >= (.7 * s['annual_prcp(r)'] ))) | ((s['annual_prcp(r)'] < (10 * ((2 * s['avg_annual_temp(t)']) + 14))))):
+        if (((s['annual_prcp(r)'] < (5 * (2 * s['avg_annual_temp(t)']))) & (s['prcp_winter'] >= (.7 * s['annual_prcp(r)']))) | ((s['annual_prcp(r)'] < (5 * ((2 * s['avg_annual_temp(t)']) + 28))) & (s['prcp_summer'] >= (.7 * s['annual_prcp(r)'] ))) | ((s['annual_prcp(r)'] < (5 * ((2 * s['avg_annual_temp(t)']) + 14))))):
             if(s['avg_annual_temp(t)'] >= 18):
                 return 'BWh'
             if (s['avg_annual_temp(t)'] < 18):
                 return 'BWk'
-        if (((s['annual_prcp(r)'] >= (5 * (2 * s['avg_annual_temp(t)']))) & (s['prcp_winter'] >= (2 * s['annual_prcp(r)'] / 3))) | ((s['annual_prcp(r)'] >= (5 * ((2 * s['avg_annual_temp(t)']) + 28))) & (s['prcp_summer'] >= (2 * s['annual_prcp(r)'] / 3))) | ((s['annual_prcp(r)'] >= (5 * ((2 * s['avg_annual_temp(t)']) + 14))))):
+        if (((s['annual_prcp(r)'] >= (5 * (2 * s['avg_annual_temp(t)']))) & (s['prcp_winter'] >= (.7 * s['annual_prcp(r)']))) | ((s['annual_prcp(r)'] >= (5 * ((2 * s['avg_annual_temp(t)']) + 28))) & (s['prcp_summer'] >= (.7 * s['annual_prcp(r)']))) | ((s['annual_prcp(r)'] >= (5 * ((2 * s['avg_annual_temp(t)']) + 14))))):
             if(s['avg_annual_temp(t)'] >= 18):
                 return 'BSh'
             if (s['avg_annual_temp(t)'] < 18):
