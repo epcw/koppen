@@ -1,0 +1,434 @@
+const urls = {
+  // source: https://observablehq.com/@mbostock/u-s-stations-voronoi
+  // source: https://github.com/topojson/us-atlas
+  map: "/koppen/map/states-albers-10m.json",
+
+  // source: https://gist.github.com/mbostock/7608400
+//  stations:
+//    "https://gist.githubusercontent.com/mbostock/7608400/raw/e5974d9bba45bc9ab272d98dd7427567aafd55bc/stations.csv",
+  stations:
+    "/koppen/data/stations.csv",
+
+  // source: https://gist.github.com/mbostock/7608400
+//  edges:
+//  "https://gist.githubusercontent.com/mbostock/7608400/raw/e5974d9bba45bc9ab272d98dd7427567aafd55bc/flights.csv"
+    edges:
+    "/koppen/map/edges.csv"
+};
+
+const svg  = d3.select("svg");
+
+const width  = parseInt(svg.attr("width"));
+const height = parseInt(svg.attr("height"));
+const hypotenuse = Math.sqrt(width * width + height * height);
+
+// must be hard-coded to match our topojson projection
+// source: https://github.com/topojson/us-atlas
+const projection = d3.geoAlbers().scale(1280).translate([480, 300]);
+
+const scales = {
+  // used to scale station bubbles
+  stations: d3.scaleSqrt()
+    .range([4, 28]),
+
+  // used to scale number of segments per line
+  segments: d3.scaleLinear()
+    .domain([0, hypotenuse])
+    .range([1, 10])
+};
+
+// have these already created for easier drawing
+const g = {
+  basemap:  svg.select("g#basemap"),
+  edges:  svg.select("g#edges"),
+  stations: svg.select("g#stations"),
+  voronoi:  svg.select("g#voronoi")
+};
+
+console.assert(g.basemap.size()  === 1);
+console.assert(g.edges.size()  === 1);
+console.assert(g.stations.size() === 1);
+console.assert(g.voronoi.size()  === 1);
+
+const tooltip = d3.select("text#tooltip");
+console.assert(tooltip.size() === 1);
+
+// load and draw base map
+d3.json(urls.map).then(drawMap);
+
+// load the station and  data together
+const promises = [
+  d3.csv(urls.stations, typeStation),
+  d3.csv(urls.edges,  typeEdge)
+];
+
+Promise.all(promises).then(processData);
+
+// process station and  data
+function processData(values) {
+  console.assert(values.length === 2);
+
+  let stations = values[0];
+  let edges  = values[1];
+
+//  console.log("stations: " + stations.length);
+//  console.log(" edges: " + edges.length);
+
+  // convert stations array (pre filter) into map for fast lookup
+  let iata = new Map(stations.map(node => [node.iata, node]));
+
+  // calculate incoming and outgoing degree based on edges
+  // edges are given by station iata code (not index)
+  edges.forEach(function(link) {
+    link.source = iata.get(link.origin);
+    link.target = iata.get(link.destination);
+
+    link.source.outgoing = link.order_length_days;
+    link.target.incoming += link.count;
+  });
+
+  // remove stations out of bounds
+  let old = stations.length;
+  stations = stations.filter(station => station.x >= 0 && station.y >= 0);
+//  console.log(" removed: " + (old - stations.length) + " stations out of bounds");
+
+  // remove stations with NA state
+  old = stations.length;
+  stations = stations.filter(station => station.state !== "NA");
+//  console.log(" removed: " + (old - stations.length) + " stations with NA state");
+
+  // remove stations without any edges
+  old = stations.length;
+  stations = stations.filter(zeroFilter) //pzed insert
+//    stations = stations.filter(station => station.outgoing > 0 && station.incoming > 0);
+//    stations = stations.filter(station => station.outgoing > 0);
+//  console.log(" removed: " + (old - stations.length) + " stations without edges");
+
+  // sort stations by outgoing degree
+  stations.sort((a, b) => d3.descending(a.outgoing, b.outgoing));
+
+  // keep only the top stations
+  old = stations.length;
+  stations = stations.slice(0, 500);
+//  console.log(" removed: " + (old - stations.length) + " stations with low outgoing degree");
+
+  // done filtering stations can draw
+  drawStations(stations);
+  drawPolygons(stations);
+
+  // reset map to only include stations post-filter
+  iata = new Map(stations.map(node => [node.iata, node]));
+
+  // filter out edges that are not between stations we have leftover
+  old = edges.length;
+  edges = edges.filter(link => iata.has(link.source.iata) && iata.has(link.target.iata));
+//  console.log(" removed: " + (old - edges.length) + " edges");
+
+  // done filtering edges can draw
+//  drawedges(stations, edges); //pzed commenting out until we figure out edges
+
+//  console.log({stations: stations});
+//  console.log({edges: edges});
+}
+
+//pzed create filter function for more than 0 outgoing
+function zeroFilter(stations) {
+    return stations.outgoing > 0;
+}
+
+// draws the underlying map
+function drawMap(map) {
+  // remove non-continental states
+  map.objects.states.geometries = map.objects.states.geometries.filter(isContinental);
+
+  // run topojson on remaining states and adjust projection
+  let land = topojson.merge(map, map.objects.states.geometries);
+
+  // use null projection; data is already projected
+  let path = d3.geoPath();
+
+  // draw base map
+  g.basemap.append("path")
+    .datum(land)
+    .attr("class", "land")
+    .attr("d", path);
+
+  // draw interior borders
+  g.basemap.append("path")
+    .datum(topojson.mesh(map, map.objects.states, (a, b) => a !== b))
+    .attr("class", "border interior")
+    .attr("d", path);
+
+  // draw exterior borders
+  g.basemap.append("path")
+    .datum(topojson.mesh(map, map.objects.states, (a, b) => a === b))
+    .attr("class", "border exterior")
+    .attr("d", path);
+}
+
+function drawStations(stations) {
+  // adjust scale
+  const extent = d3.extent(stations, d => d.outgoing);
+  scales.stations.domain(extent);
+
+  // draw station bubbles
+  g.stations.selectAll("circle.station")
+    .data(stations, d => d.iata)
+    .enter()
+    .append("circle")
+    .attr("r",  d => scales.stations(d.outgoing) * -1/4 + 12 ) // pzed this changes the size of the circles.
+    .attr("cx", d => d.x) // calculated on load
+    .attr("cy", d => d.y) // calculated on load
+    .attr("class", "station")
+    .each(function(d) {
+      // adds the circle object to our station
+      // makes it fast to select stations on hover
+      d.bubble = this;
+    });
+}
+
+function drawPolygons(stations) {
+  // convert array of stations into geojson format
+  const geojson = stations.map(function(station) {
+    return {
+      type: "Feature",
+      properties: station,
+      geometry: {
+        type: "Point",
+        coordinates: [station.longitude, station.latitude]
+      }
+    };
+  });
+
+  // calculate voronoi polygons
+  const polygons = d3.geoVoronoi().polygons(geojson);
+//  console.log(polygons);
+
+  g.voronoi.selectAll("path")
+    .data(polygons.features)
+    .enter()
+    .append("path")
+    .attr("d", d3.geoPath(projection))
+    .attr("class", "voronoi")
+    .on("mouseover", function(d) {
+      let station = d.properties.site.properties;
+
+      d3.select(station.bubble)
+        .classed("highlight", true);
+
+      d3.selectAll(station.edges)
+        .classed("highlight", true)
+        .raise();
+
+      // make tooltip take up space but keep it invisible
+      tooltip.style("display", null);
+      tooltip.style("visibility", "hidden");
+
+      // set default tooltip positioning
+      tooltip.attr("text-anchor", "middle");
+      tooltip.attr("dy", -scales.stations(station.outgoing) - 4);
+      tooltip.attr("x", station.x);
+      tooltip.attr("y", station.y);
+
+      // set the tooltip text
+      tooltip.text(station.city + ", " + station.state + ": " + station.outgoing + " days under mask mandate");
+
+      // double check if the anchor needs to be changed
+      let bbox = tooltip.node().getBBox();
+
+      if (bbox.x <= 0) {
+        tooltip.attr("text-anchor", "start");
+      }
+      else if (bbox.x + bbox.width >= width) {
+        tooltip.attr("text-anchor", "end");
+      }
+
+      tooltip.style("visibility", "visible");
+    })
+    .on("mouseout", function(d) {
+      let station = d.properties.site.properties;
+
+      d3.select(station.bubble)
+        .classed("highlight", false);
+
+      d3.selectAll(station.edges)
+        .classed("highlight", false);
+
+      d3.select("text#tooltip").style("visibility", "hidden");
+    })
+    .on("dblclick", function(d) {
+      // toggle voronoi outline
+      let toggle = d3.select(this).classed("highlight");
+      d3.select(this).classed("highlight", !toggle);
+    });
+}
+// pzed commenting out until we figure out edges
+function drawedges(stations, edges) {
+  // break each  between stations into multiple segments
+  let bundle = generateSegments(stations, edges);
+
+  // https://github.com/d3/d3-shape#curveBundle
+  let line = d3.line()
+    .curve(d3.curveBundle)
+    .x(station => station.x)
+    .y(station => station.y);
+
+  let links = g.edges.selectAll("path.edge")
+    .data(bundle.paths)
+    .enter()
+    .append("path")
+/* failed attempt to add arrows
+    .append('marker')
+    .attr('id', 'arrow')
+    .attr('viewBox', [0, 0, markerBoxWidth, markerBoxHeight])
+    .attr('markerWidth', markerBoxWidth)
+    .attr('markerHeight', markerBoxHeight)
+    .attr('orient', 'auto-start-reverse')
+    .attr('d', d3.line()(arrowPoints))
+*/
+    .attr('stroke', 'black')
+    .attr("d", line)
+    .attr("class", "edge")
+    .each(function(d) {
+      // adds the path object to our source station
+      // makes it fast to select outgoing paths
+      d[0].edges.push(this);
+    });
+
+  // https://github.com/d3/d3-force
+  let layout = d3.forceSimulation()
+    // settle at a layout faster
+    .alphaDecay(0.1)
+    // nearby nodes attract each other
+    .force("charge", d3.forceManyBody()
+      .strength(10)
+      .distanceMax(scales.stations.range()[1] * 2)
+    )
+    // edges want to be as short as possible
+    // prevents too much stretching
+    .force("link", d3.forceLink()
+      .strength(0.7)
+      .distance(0)
+    )
+    .on("tick", function(d) {
+      links.attr("d", line);
+    })
+    .on("end", function(d) {
+//      console.log("layout complete");
+    });
+
+  layout.nodes(bundle.nodes).force("link").links(bundle.links);
+}
+
+// Turns a single edge into several segments that can
+// be used for simple edge bundling.
+function generateSegments(nodes, links) {
+  // generate separate graph for edge bundling
+  // nodes: all nodes including control nodes
+  // links: all individual segments (source to target)
+  // paths: all segments combined into single path for drawing
+  let bundle = {nodes: [], links: [], paths: []};
+
+  // make existing nodes fixed
+  bundle.nodes = nodes.map(function(d, i) {
+    d.fx = d.x;
+    d.fy = d.y;
+    return d;
+  });
+
+  links.forEach(function(d, i) {
+    // calculate the distance between the source and target
+    let length = distance(d.source, d.target);
+
+    // calculate total number of inner nodes for this link
+    let total = Math.round(scales.segments(length));
+
+    // create scales from source to target
+    let xscale = d3.scaleLinear()
+      .domain([0, total + 1]) // source, inner nodes, target
+      .range([d.source.x, d.target.x]);
+
+    let yscale = d3.scaleLinear()
+      .domain([0, total + 1])
+      .range([d.source.y, d.target.y]);
+
+    // initialize source node
+    let source = d.source;
+    let target = null;
+
+    // add all points to local path
+    let local = [source];
+
+    for (let j = 1; j <= total; j++) {
+      // calculate target node
+      target = {
+        x: xscale(j),
+        y: yscale(j)
+      };
+
+      local.push(target);
+      bundle.nodes.push(target);
+
+      bundle.links.push({
+        source: source,
+        target: target
+      });
+
+      source = target;
+    }
+
+    local.push(d.target);
+
+    // add last link to target node
+    bundle.links.push({
+      source: target,
+      target: d.target
+    });
+
+    bundle.paths.push(local);
+  });
+
+  return bundle;
+}
+
+// determines which states belong to the continental united states
+// https://gist.github.com/mbostock/4090846#file-us-state-names-tsv
+function isContinental(state) {
+  const id = parseInt(state.id);
+  return id < 60 && id !== 2 && id !== 15;
+}
+
+// see stations.csv
+// convert gps coordinates to number and init degree
+function typeStation(station) {
+  station.longitude = parseFloat(station.longitude);
+  station.latitude  = parseFloat(station.latitude);
+
+  // use projection hard-coded to match topojson data
+  const coords = projection([station.longitude, station.latitude]);
+  station.x = coords[0];
+  station.y = coords[1];
+
+  station.outgoing = 0;  // eventually tracks number of outgoing edges
+  station.incoming = 0;  // eventually tracks number of incoming edges
+
+  station.edges = [];  // eventually tracks outgoing edges
+
+  return station;
+}
+
+// see edges.csv
+// convert count to number
+function typeEdge(edge) {
+  edge.count = parseInt(edge.count);
+  return edge;
+}
+
+// calculates the distance between two nodes
+// sqrt( (x2 - x1)^2 + (y2 - y1)^2 )
+function distance(source, target) {
+  const dx2 = Math.pow(target.x - source.x, 2);
+  const dy2 = Math.pow(target.y - source.y, 2);
+
+  return Math.sqrt(dx2 + dy2);
+}

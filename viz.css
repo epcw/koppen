@@ -1,0 +1,96 @@
+/*d3 INFOGRAPHIC styling*/
+body {
+  background-color: white;
+  text-align: center;
+  font-family: sans-serif;
+}
+
+.land {
+  fill: #dddddd;
+}
+
+.border {
+  fill: none;
+  stroke-width: 1px;
+}
+
+.interior {
+  stroke: white;
+}
+
+.exterior {
+  stroke: #bbbbbb;
+}
+
+.airport {
+  fill: white;
+  opacity: 0.6;
+  stroke: #252525;
+}
+.airport.purple {
+  fill: purple!important;
+}
+.airport.red {
+  fill: red!important;
+}
+.airport.orange {
+  fill: orange!important;
+}
+.airport.yellow {
+  fill: yellow!important;
+}
+.airport.lightgreen {
+  fill: yellowgreen!important;
+}
+.airport.darkgreen {
+  fill: green!important;
+}
+
+.edge {
+  fill: none;
+  stroke: #252525;
+  stroke-width: 2px;
+  stroke-opacity: 0.1;
+}
+
+.voronoi {
+  fill: none;
+  stroke: none;
+  stroke-width: 1px;
+}
+/* @media only screen and (min-width:768px) {
+.highlight {
+  stroke: red !important;
+}
+}*/
+.highlight {
+  opacity: 1 !important;
+  stroke-width: 2px !important;
+  stroke-opacity: 0.9 !important;
+}
+
+g#voronoi {
+  pointer-events: all;
+}
+
+/* shadow trick from bl.ocks.org */
+#tooltip {
+  font-size: 10pt;
+  font-weight: 900;
+  fill: white;
+  text-shadow: 1px 1px 0 #252525, 1px -1px 0 #252525, -1px 1px 0 #252525, -1px -1px 0 #252525;
+}
+
+/*HTML page styling*/
+#content {
+max-width:1500px;
+width:100%;
+margin:0 auto;
+}
+.notes {
+color:gray;
+font-size:smaller;
+}
+.spacer {
+height:2em;
+}
