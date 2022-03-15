@@ -7,7 +7,7 @@ const urls = {
 //  stations:
 //    "https://gist.githubusercontent.com/mbostock/7608400/raw/e5974d9bba45bc9ab272d98dd7427567aafd55bc/stations.csv",
   stations:
-    "/koppen/data/stations.csv",
+    "/koppen/map/stations.csv",
 
   // source: https://gist.github.com/mbostock/7608400
 //  edges:
