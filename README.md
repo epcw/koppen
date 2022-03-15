@@ -16,6 +16,7 @@ Order of scripts:
 ### Data source
 National Oceanographic and Atmospheric Administration [Climate Data Online API](https://www.ncdc.noaa.gov/cdo-web/webservices/v2)\
 Dataset: Global Summary of the Month (GSOM), 1982-2021 monthly total PRCP & avg temp.
+Koppen class definitions derived from [Beck, H., Zimmermann, N., McVicar, T. et al. Present and future Köppen-Geiger climate classification maps at 1-km resolution. Sci Data 5, 180214 (2018). https://doi.org/10.1038/sdata.2018.214](https://www.nature.com/articles/sdata2018214)
 
 ### Principal researchers
 Richard W. Sharp\
