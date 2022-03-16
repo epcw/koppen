@@ -177,7 +177,7 @@ function drawStations(stations) {
     .data(stations, d => d.noaa)
     .enter()
     .append("circle")
-    .attr("r",  d => scales.stations(d.outgoing) * -1/4 + 8 ) // pzed this changes the size of the circles.
+    .attr("r",  d => scales.stations(d.outgoing) * -1/4 + 7 ) // pzed this changes the size of the circles.
     .attr("cx", d => d.x) // calculated on load
     .attr("cy", d => d.y) // calculated on load
 //    .attr("class", "station ")
