@@ -435,3 +435,14 @@ function distance(source, target) {
 
   return Math.sqrt(dx2 + dy2);
 }
+
+// trying a zoom function here
+var zoom = d3.zoom()
+      .scaleExtent([1, 8])
+      .on('zoom', function() {
+          g.stations.selectAll('circle').attr('transform', d3.event.transform),
+          g.basemap.selectAll('path').attr('transform', d3.event.transform),
+          g.voronoi.selectAll("path").attr('transform', d3.event.transform);
+});
+
+svg.call(zoom);
