@@ -75,15 +75,15 @@ function processData(values) {
 //  console.log(" edges: " + edges.length);
 
   // convert stations array (pre filter) into map for fast lookup
-  let iata = new Map(stations.map(node => [node.iata, node]));
+  let noaa = new Map(stations.map(node => [node.noaa, node]));
 
   // calculate incoming and outgoing degree based on edges
-  // edges are given by station iata code (not index)
+  // edges are given by station noaa code (not index)
   edges.forEach(function(link) {
-    link.source = iata.get(link.origin);
-    link.target = iata.get(link.destination);
+    link.source = noaa.get(link.origin);
+    link.target = noaa.get(link.destination);
 
-    link.source.outgoing = link.order_length_days;
+    link.source.outgoing = link.count;
     link.target.incoming += link.count;
   });
 
@@ -97,9 +97,9 @@ function processData(values) {
   stations = stations.filter(station => station.state !== "NA");
 //  console.log(" removed: " + (old - stations.length) + " stations with NA state");
 
-  // remove stations without any edges
-  old = stations.length;
-  stations = stations.filter(zeroFilter) //pzed insert
+//  // remove stations without any edges
+//  old = stations.length;
+//  stations = stations.filter(zeroFilter) //pzed insert
 //    stations = stations.filter(station => station.outgoing > 0 && station.incoming > 0);
 //    stations = stations.filter(station => station.outgoing > 0);
 //  console.log(" removed: " + (old - stations.length) + " stations without edges");
@@ -108,8 +108,8 @@ function processData(values) {
   stations.sort((a, b) => d3.descending(a.outgoing, b.outgoing));
 
   // keep only the top stations
-  old = stations.length;
-  stations = stations.slice(0, 500);
+//  old = stations.length;
+//  stations = stations.slice(0, 500);
 //  console.log(" removed: " + (old - stations.length) + " stations with low outgoing degree");
 
   // done filtering stations can draw
@@ -117,11 +117,11 @@ function processData(values) {
   drawPolygons(stations);
 
   // reset map to only include stations post-filter
-  iata = new Map(stations.map(node => [node.iata, node]));
+  noaa = new Map(stations.map(node => [node.noaa, node]));
 
   // filter out edges that are not between stations we have leftover
   old = edges.length;
-  edges = edges.filter(link => iata.has(link.source.iata) && iata.has(link.target.iata));
+  edges = edges.filter(link => noaa.has(link.source.noaa) && noaa.has(link.target.noaa));
 //  console.log(" removed: " + (old - edges.length) + " edges");
 
   // done filtering edges can draw
@@ -138,8 +138,8 @@ function zeroFilter(stations) {
 
 // draws the underlying map
 function drawMap(map) {
-  // remove non-continental states
-  map.objects.states.geometries = map.objects.states.geometries.filter(isContinental);
+  // remove unwanted states
+  map.objects.states.geometries = map.objects.states.geometries.filter(inArea);
 
   // run topojson on remaining states and adjust projection
   let land = topojson.merge(map, map.objects.states.geometries);
@@ -170,16 +170,18 @@ function drawStations(stations) {
   // adjust scale
   const extent = d3.extent(stations, d => d.outgoing);
   scales.stations.domain(extent);
+//  const koppen = station.koppen;
 
   // draw station bubbles
   g.stations.selectAll("circle.station")
-    .data(stations, d => d.iata)
+    .data(stations, d => d.noaa)
     .enter()
     .append("circle")
-    .attr("r",  d => scales.stations(d.outgoing) * -1/4 + 12 ) // pzed this changes the size of the circles.
+    .attr("r",  d => scales.stations(d.outgoing) * -1/4 + 8 ) // pzed this changes the size of the circles.
     .attr("cx", d => d.x) // calculated on load
     .attr("cy", d => d.y) // calculated on load
-    .attr("class", "station")
+//    .attr("class", "station ")
+    .attr('class', function (station) { return "station " + station.koppen })
     .each(function(d) {
       // adds the circle object to our station
       // makes it fast to select stations on hover
@@ -231,7 +233,7 @@ function drawPolygons(stations) {
       tooltip.attr("y", station.y);
 
       // set the tooltip text
-      tooltip.text(station.city + ", " + station.state + ": " + station.outgoing + " days under mask mandate");
+      tooltip.text(station.name + " (" + station.noaa + "): " + station.koppen + " - " + station.koppen_name);
 
       // double check if the anchor needs to be changed
       let bbox = tooltip.node().getBBox();
@@ -391,11 +393,12 @@ function generateSegments(nodes, links) {
   return bundle;
 }
 
-// determines which states belong to the continental united states
+// determines which states belong to the set
 // https://gist.github.com/mbostock/4090846#file-us-state-names-tsv
-function isContinental(state) {
+function inArea (state) {
   const id = parseInt(state.id);
-  return id < 60 && id !== 2 && id !== 15;
+  return id == 06 || id == 41 || id == 53 || id == 04 || id == 08 || id == 16 || id == 30 || id == 32 || id == 35 || id == 49 || id == 56; // Continental US West
+//  return id < 60 && id !== 2 && id !== 15; //all continental US
 }
 
 // see stations.csv

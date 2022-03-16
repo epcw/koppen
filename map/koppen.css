@@ -22,28 +22,103 @@ body {
   stroke: #bbbbbb;
 }
 
-.airport {
+.station {
   fill: white;
   opacity: 0.6;
-  stroke: #252525;
+  stroke: #25252525;
 }
-.airport.purple {
-  fill: purple!important;
+.station.Af {
+  fill: #0000ff!important;
 }
-.airport.red {
-  fill: red!important;
+.station.Am {
+  fill: #0178ff!important;
 }
-.airport.orange {
-  fill: orange!important;
+.station.Aw {
+  fill: #47a9fa!important;
 }
-.airport.yellow {
-  fill: yellow!important;
+.station.BWh {
+  fill: #fe0000!important;
 }
-.airport.lightgreen {
-  fill: yellowgreen!important;
+.station.BWk {
+  fill: #fe9594!important;
 }
-.airport.darkgreen {
-  fill: green!important;
+.station.BSh {
+  fill: #f4a501!important;
+}
+.station.BSk {
+  fill: #ffdc64!important;
+}
+.station.Csa {
+  fill: #ffff00!important;
+}
+.station.Csb {
+  fill: #c7c800!important;
+}
+.station.Csc {
+  fill: #969600!important;
+}
+.station.Cwa {
+  fill: #96ff97!important;
+}
+.station.Cwb {
+  fill: #63c864!important;
+}
+.station.Cwc {
+  fill: #329733!important;
+}
+.station.Cfa {
+  fill: #c9fe52!important;
+}
+.station.Cfb {
+  fill: #63ff32!important;
+}
+.station.Cfc {
+  fill: #2fc700!important;
+}
+.station.Dsa {
+  fill: #ff01ff!important;
+}
+.station.Dsb {
+  fill: #c900c8!important;
+}
+.station.Dsc {
+  fill: #963195!important;
+}
+.station.Dsd {
+  fill: #966597!important;
+}
+.station.Dwa {
+  fill: #aaafff!important;
+}
+.station.Dwb {
+  fill: #5a78db!important;
+}
+.station.Dwc {
+  fill: #4b4fb4!important;
+}
+.station.Dwd {
+  fill: #310087!important;
+}
+.station.Dfa {
+  fill: #01fffe!important;
+}
+.station.Dfb {
+  fill: #36c8ff!important;
+}
+.station.Dfc {
+  fill: #017d7d!important;
+}
+.station.Dfd {
+  fill: #00475f!important;
+}
+.station.ET {
+  fill: #b2b2b2!important;
+}
+.station.EF {
+  fill: #666666!important;
+}
+.station.H {
+  fill: #000000!important;
 }
 
 .edge {
