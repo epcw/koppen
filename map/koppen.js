@@ -233,7 +233,7 @@ function drawPolygons(stations) {
       tooltip.attr("y", station.y);
 
       // set the tooltip text
-      tooltip.text(station.name + " (" + station.noaa + "): " + station.koppen + " - " + station.koppen_name);
+      tooltip.text(station.name + " (" + station.noaa + ", " + station.elevation + "m): " + station.koppen + ", " + station.koppen_name);
 
       // double check if the anchor needs to be changed
       let bbox = tooltip.node().getBBox();

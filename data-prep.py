@@ -4,7 +4,7 @@ import csv
 df = pd.read_csv('data/koppen_class.csv', dtype={'year': str})
 df = df.dropna(subset=['koppen'])
 df = df[(df['year'] == '2019')]
-df = df[['station','name','year','latitude','longitude','koppen','koppen_name']].drop_duplicates()
+df = df[['station','name','year','latitude','longitude','elevation','koppen','koppen_name']].drop_duplicates()
 df = df.rename(columns = {'station':'noaa'})
 
 #"origin","destination","count","iata","order_count","order_length_days","date_start","date_end"
