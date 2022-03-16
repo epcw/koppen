@@ -25,7 +25,8 @@ body {
 .station {
   fill: white;
   opacity: 0.6;
-  stroke: #25252525;
+  stroke: #25252550;
+  stroke-width:0.3;
 }
 .station.Af {
   fill: #0000ff!important;
