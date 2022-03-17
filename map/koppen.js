@@ -54,8 +54,8 @@ const tooltip = d3.select("text#tooltip");
 console.assert(tooltip.size() === 1);
 
 //pzed create base year
-// var minyear = d3.min(g.stations.year, function (d) { return d.val; });
-// var maxyear = d3.max(g.stations.year, function (d) { return d.val; });
+//var minyear = d3.min(stations.year, function (d) { return d.val; });
+//var maxyear = d3.max(stations.year, function (d) { return d.val; });
 var year = 1982;
 
 // load and draw base map
@@ -72,8 +72,8 @@ Promise.all(promises).then(processData);
 d3.select("#year").on("input", function () {
     year = +this.value;
     d3.select('#year-value').text(year);
-    // d3.select('#year').attr("min", minyear);
-    // d3.select('#year').attr("max", maxyear);
+//    d3.select('#year').attr("min", minyear);
+//    d3.select('#year').attr("max", maxyear);
     g.stations.selectAll('circle').remove();
     g.voronoi.selectAll('path').remove();
     g.basemap.selectAll('path').remove();
