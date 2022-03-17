@@ -53,6 +53,11 @@ console.assert(g.voronoi.size()  === 1);
 const tooltip = d3.select("text#tooltip");
 console.assert(tooltip.size() === 1);
 
+//pzed create base year
+// var minyear = d3.min(g.stations.year, function (d) { return d.val; });
+// var maxyear = d3.max(g.stations.year, function (d) { return d.val; });
+var year = 1982;
+
 // load and draw base map
 d3.json(urls.map).then(drawMap);
 
@@ -63,6 +68,25 @@ const promises = [
 ];
 
 Promise.all(promises).then(processData);
+
+d3.select("#year").on("input", function () {
+    year = +this.value;
+    d3.select('#year-value').text(year);
+    // d3.select('#year').attr("min", minyear);
+    // d3.select('#year').attr("max", maxyear);
+    g.stations.selectAll('circle').remove();
+    g.voronoi.selectAll('path').remove();
+    g.basemap.selectAll('path').remove();
+
+    d3.json(urls.map).then(drawMap);
+
+    Promise.all(promises).then(processData);
+
+
+    // g.stations.selectAll('circle').each(function(d) {
+    //     drawStations(g.stations);
+    //   });
+  });
 
 // process station and  data
 function processData(values) {
@@ -86,6 +110,10 @@ function processData(values) {
     link.source.outgoing = link.count;
     link.target.incoming += link.count;
   });
+
+  // filter for year
+  let oldyear = stations.year;
+  stations = stations.filter(station => station.year == year );
 
   // remove stations out of bounds
   let old = stations.length;
@@ -440,6 +468,7 @@ function distance(source, target) {
 var zoom = d3.zoom()
       .scaleExtent([1, 8])
       .on('zoom', function() {
+         //transform = d3.event.transform //store transform
           g.stations.selectAll('circle').attr('transform', d3.event.transform),
           g.basemap.selectAll('path').attr('transform', d3.event.transform),
           g.voronoi.selectAll("path").attr('transform', d3.event.transform);
