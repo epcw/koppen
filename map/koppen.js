@@ -206,7 +206,7 @@ function drawStations(stations) {
     .data(stations, d => d.noaa)
     .enter()
     .append("circle")
-    .attr("r", "6")
+    .attr("r", "4")
 //    .attr("r",  d => scales.stations(d.outgoing) * -1/4 + 7 ) // pzed this changes the size of the circles.
     .attr("cx", d => d.x) // calculated on load
     .attr("cy", d => d.y) // calculated on load
@@ -476,4 +476,4 @@ var zoom = d3.zoom()
           g.voronoi.selectAll("path").attr('transform', d3.event.transform);
 });
 
-svg.call(zoom);
+// svg.call(zoom); //kill until we get this working because it's ANNOYING

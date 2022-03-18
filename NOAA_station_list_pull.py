@@ -49,6 +49,6 @@ df_cleanids.to_csv(df_listfile, index=False, header=False)
 print("cleaning " + df_listfile)
 
 df_cleanlist = pd.read_csv(df_filename)
-df_cleanlist = df_cleanids.drop_duplicates()
+df_cleanlist = df_cleanlist.drop_duplicates()
 df_cleanlist.to_csv(df_filename, index=False, header=True)
 print("cleaning " + df_filename)

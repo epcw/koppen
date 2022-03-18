@@ -136,3 +136,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 /map/edges_model.csv
+/map/edges-pacific.csv
+/stations/station_ids-full.txt
+/map/stations-pacific.csv
