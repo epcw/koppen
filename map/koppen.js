@@ -67,18 +67,20 @@ const promises = [
   d3.csv(urls.edges,  typeEdge)
 ];
 
+g.basemap.selectAll('path').remove();
+
+d3.json(urls.map).then(drawMap);
+
 Promise.all(promises).then(processData);
 
 d3.select("#year").on("input", function () {
-    year = +this.value;
+//    year = +this.value;
+    year = this.value;
     d3.select('#year-value').text(year);
 //    d3.select('#year').attr("min", minyear);
 //    d3.select('#year').attr("max", maxyear);
     g.stations.selectAll('circle').remove();
     g.voronoi.selectAll('path').remove();
-    g.basemap.selectAll('path').remove();
-
-    d3.json(urls.map).then(drawMap);
 
     Promise.all(promises).then(processData);
 
@@ -205,7 +207,8 @@ function drawStations(stations) {
     .data(stations, d => d.noaa)
     .enter()
     .append("circle")
-    .attr("r",  d => scales.stations(d.outgoing) * -1/4 + 7 ) // pzed this changes the size of the circles.
+    .attr("r", "6")
+//    .attr("r",  d => scales.stations(d.outgoing) * -1/4 + 7 ) // pzed this changes the size of the circles.
     .attr("cx", d => d.x) // calculated on load
     .attr("cy", d => d.y) // calculated on load
 //    .attr("class", "station ")
@@ -261,7 +264,7 @@ function drawPolygons(stations) {
       tooltip.attr("y", station.y);
 
       // set the tooltip text
-      tooltip.text(station.name + " (" + station.noaa + ", " + station.elevation + "m): " + station.koppen + ", " + station.koppen_name);
+      tooltip.text(station.name + " (" + station.noaa + ", " + station.elevation + "m): " + station.koppen + ", " + station.koppen_name + ", " + station.year);
 
       // double check if the anchor needs to be changed
       let bbox = tooltip.node().getBBox();

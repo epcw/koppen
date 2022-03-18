@@ -175,7 +175,7 @@
     <p align="center">Draft infographic looking at the changing climate of the US West over time as visualized by Köppen climate classes</p>
     <p align="center" class="notes">TODO: Add slider to show change over time, add rest of dataset (other states + 1930-82), add legend + explanation of classes, add narrative analysis</p>
     <div class="spacer"></div>
-    <div id="slider">
+    <div id="slider" style="width:100%;">
     <label for="nVel">
       Year = <span id="year-value">1982</span>
       <input style="width: 200px;" type="range" min="1982" max="2021" id="year" value="1982" step='1'>
@@ -183,7 +183,8 @@
     </div>
     <div class="spacer"></div>
     <!-- must be 960x600 to match topojson us atlas files -->
-<svg width="960" height="600">
+<!-- <svg width="960" height="600">-->
+    <svg width="100%" height="width/1.6" style="max-width:960px;">
   <!-- must be in this order for drawing -->
   <g id="basemap"></g>
   <g id="edges"></g>
