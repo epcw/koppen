@@ -74,8 +74,7 @@ d3.json(urls.map).then(drawMap);
 Promise.all(promises).then(processData);
 
 d3.select("#year").on("input", function () {
-//    year = +this.value;
-    year = this.value;
+    year = +this.value;
     d3.select('#year-value').text(year);
 //    d3.select('#year').attr("min", minyear);
 //    d3.select('#year').attr("max", maxyear);
