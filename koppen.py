@@ -239,8 +239,14 @@ def koppen_name(s):
 df_agg['koppen_name'] = df_agg.apply(koppen_name, axis=1)
 print("assigning Köppen classes")
 
-if os.path.exists('data/koppen_class.csv'):
-    os.rename('data/koppen_class.csv', 'data/koppen_class_old.csv')
 
-df_agg.to_csv(df_filename, index=False, quotechar='"', quoting=csv.QUOTE_ALL, header=True)
+# COMMENT OUT IF ADDING TO EXISTING
+# if os.path.exists('data/koppen_class.csv'):
+#     os.rename('data/koppen_class.csv', 'data/koppen_class_old.csv')
+#
+# df_agg.to_csv(df_filename, index=False, quotechar='"', quoting=csv.QUOTE_ALL, header=True)
+# print("exporting " + df_filename)
+
+#IF EXISTING
+df_agg.to_csv(df_filename, index=False, quotechar='"', mode="a", quoting=csv.QUOTE_ALL, header=False)
 print("exporting " + df_filename)
