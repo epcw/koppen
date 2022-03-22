@@ -51,6 +51,21 @@ for s in station_list: #iterate over station list
                 print("exporting " + s + " " + str(d))
             except:
                 print("skipping " + s + " " + str(d)) #handle stations that are not available for the entire length of the pull
+        elif resp.status_code == 502:
+            print("bad gateway (502) on " + s + " " + str(d) + ". Retrying.")
+            resp = requests.get(url, headers=headers)
+            r = json.loads(resp.text)  # don't stick this inside the try because when it fails, you know you've run out of requests for the day (10k/day)
+            try:
+                df = pd.json_normalize(r["results"]) #json_normalize takes a nested json and makes it a flat table
+                df.to_csv(df_filename, mode='a', index=False, quotechar='"', quoting=csv.QUOTE_ALL, header=False)
+                print("exporting " + s + " " + str(d))
+            except:
+                failfile = "failfile.txt"
+                failstring = str(resp.status_code) + " on: " + s + " " + str(d)
+                with open(failfile, 'w') as ff:
+                    ff.write(failstring)
+                    ff.close()
+                sys.exit(resp.status_code)
         else:
             failfile = "failfile.txt"
             failstring = str(resp.status_code) + " on: " + s + " " + str(d)

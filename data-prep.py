@@ -3,9 +3,10 @@ import csv
 
 df = pd.read_csv('data/koppen_class.csv', dtype={'year': str})
 df = df.dropna(subset=['koppen'])
-df = df[(df['koppen'] != 'H')] #for test year only
+df = df[(df['koppen'] != 'H')] #filter out specific koppen classes
 df = df[['station','name','year','latitude','longitude','elevation','koppen','koppen_name']].drop_duplicates()
 df = df.rename(columns = {'station':'noaa'})
+df['name'] = df['name'].str.replace(r' US$', '')
 
 df_edges = df[['noaa','name','year']]
 df_edges['origin'] = df_edges['noaa']

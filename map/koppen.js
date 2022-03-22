@@ -52,6 +52,10 @@ console.assert(g.voronoi.size()  === 1);
 
 const tooltip = d3.select("text#tooltip");
 console.assert(tooltip.size() === 1);
+const tooltipdetail = d3.select("text#tooltipdetail");
+console.assert(tooltipdetail.size() === 1);
+const tooltipcode = d3.select("text#tooltipcode");
+console.assert(tooltipcode.size() === 1);
 
 //pzed create base year
 //var minyear = d3.min(stations.year, function (d) { return d.val; });
@@ -255,27 +259,48 @@ function drawPolygons(stations) {
       // make tooltip take up space but keep it invisible
       tooltip.style("display", null);
       tooltip.style("visibility", "hidden");
+      tooltipdetail.style("display", null);
+      tooltipdetail.style("visibility", "hidden");
+      tooltipcode.style("display", null);
+      tooltipcode.style("visibility", "hidden");
 
       // set default tooltip positioning
       tooltip.attr("text-anchor", "middle");
       tooltip.attr("dy", -scales.stations(station.outgoing) - 4);
       tooltip.attr("x", station.x);
       tooltip.attr("y", station.y);
+      tooltipdetail.attr("text-anchor", "middle");
+      tooltipdetail.attr("dy", -scales.stations(station.outgoing) + 10);
+      tooltipdetail.attr("x", station.x);
+      tooltipdetail.attr("y", station.y);
+      tooltipcode.attr("text-anchor", "middle");
+      tooltipcode.attr("dy", -scales.stations(station.outgoing) - 20);
+      tooltipcode.attr("x", station.x);
+      tooltipcode.attr("y", station.y);
+
 
       // set the tooltip text
-      tooltip.text(station.name + " (" + station.noaa + ", " + station.elevation + "m): " + station.koppen + ", " + station.koppen_name + ", " + station.year);
+      tooltipcode.text("Station: " + station.noaa);
+      tooltip.text(station.name + " (" + station.elevation + "m)");
+      tooltipdetail.text(station.year + " | " + station.koppen + " - " + station.koppen_name);
 
       // double check if the anchor needs to be changed
       let bbox = tooltip.node().getBBox();
 
       if (bbox.x <= 0) {
         tooltip.attr("text-anchor", "start");
+        tooltipdetail.attr("text-anchor", "start");
+        tooltipcode.attr("text-anchor", "start");
       }
       else if (bbox.x + bbox.width >= width) {
         tooltip.attr("text-anchor", "end");
+        tooltipdetail.attr("text-anchor", "end");
+        tooltipcode.attr("text-anchor", "end");
       }
 
       tooltip.style("visibility", "visible");
+      tooltipdetail.style("visibility", "visible");
+      tooltipcode.style("visibility", "visible");
     })
     .on("mouseout", function(d) {
       let station = d.properties.site.properties;
@@ -287,6 +312,8 @@ function drawPolygons(stations) {
         .classed("highlight", false);
 
       d3.select("text#tooltip").style("visibility", "hidden");
+      d3.select("text#tooltipdetail").style("visibility", "hidden");
+      d3.select("text#tooltipcode").style("visibility", "hidden");
     })
     .on("dblclick", function(d) {
       // toggle voronoi outline

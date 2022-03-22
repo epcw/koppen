@@ -173,7 +173,7 @@
     <div class="spacer"></div>
     <h1 id="title" align="center">Mapping changing climate in the US West</h1>
     <p align="center">Draft infographic looking at the changing climate of the US West over time as visualized by Köppen climate classes</p>
-    <p align="center" class="notes">TODO: Add slider to show change over time, add rest of dataset (other states + 1930-82), add legend + explanation of classes, add narrative analysis</p>
+    <p align="center" class="notes">TODO: Add rest of dataset (other states + 1930-82), add legend + explanation of classes, add narrative analysis</p>
     <div class="spacer"></div>
     <div id="slider" style="width:90%;">
     <label for="nVel">
@@ -190,7 +190,10 @@
   <g id="edges"></g>
   <g id="stations"></g>
   <g id="voronoi"></g>
+  <text id="tooltipcode" style="display: none;"></text>
   <text id="tooltip" style="display: none;"></text>
+  <text id="tooltipdetail" style="display: none;"></text>
+
 </svg>
     <div id="legend">
         <table id="koppen-defs"><tbody>
@@ -199,15 +202,15 @@
         </tr>
         <tr>
             <td class="Af koppen">Af - Tropical Rainforest</td>
-            <td class="def">Coldest mo. &ge; 18&deg;C & driest mo. &ge; 60mm</td>
+            <td class="def">Not arid (B) & coldest mo. &ge; 18&deg;C & driest mo. &ge; 60mm</td>
         </tr>
         <tr>
             <td class="Am koppen">Af - Tropical Monsoon</td>
-            <td class="def">Coldest mo. &ge; 18&deg;C & driest mo. &ge; (100 - annual precip)/25</td>
+            <td class="def">Not arid (B) & coldest mo. &ge; 18&deg;C & driest mo. &ge; (100 - annual precip)/25</td>
         </tr>
         <tr>
             <td class="Aw koppen">Aw - Savannah</td>
-            <td class="def">Coldest mo. &ge; 18&deg;C & driest mo. &lt; (100 - annual precip)/25</td>
+            <td class="def">Not arid (B) & coldest mo. &ge; 18&deg;C & driest mo. &lt; (100 - annual precip)/25</td>
         </tr>
         <tr>
             <td class="BWh koppen">BWh - Hot Desert</td>
@@ -227,15 +230,95 @@
         </tr>
         <tr>
             <td class="Csa koppen">Csa - Mediterranean hot</td>
-            <td class="def">Not arid (B) & hottest mo &ge; 22&deg;C & coldest mo btw 0-18&deg;C & driest summer mo &lt; 40mm & driest summer mo &lt; (wettest winter mo / 3)</td>
+            <td class="def">Not arid (B) & hottest mo &ge; 22&deg;C & coldest mo btw 0-18&deg;C & driest summer mo &lt; 40mm & driest summer mo &lt; (wettest winter mo/3)</td>
         </tr>
         <tr>
             <td class="Csb koppen">Csb - Mediterranean warm</td>
-            <td class="def">Not arid (B) & hottest mo &gt; 10&deg;C & coldest mo btw 0-18&deg;C & # of months &gt; 10&deg;C &ge; 4 & driest summer mo &lt; 40mm & driest summer mo &lt; (wettest winter mo / 3)</td>
+            <td class="def">Not arid (B) & hottest mo &gt; 10&deg;C & coldest mo btw 0-18&deg;C & # of months &gt; 10&deg;C &ge; 4 & driest summer mo &lt; 40mm & driest summer mo &lt; (wettest winter mo/3)</td>
         </tr>
         <tr>
-            <td class="Csc koppen">Csb - Mediterranean cold</td>
-            <td class="def">Not arid (B) & hottest mo &gt; 10&deg;C & coldest mo btw 0-18&deg;C & # of months &gt; 10&deg;C btw 1-3 & driest summer mo &lt; 40mm & driest summer mo &lt; (wettest winter mo / 3)</td>
+            <td class="Csc koppen">Csc - Mediterranean cold</td>
+            <td class="def">Not arid (B) & hottest mo &gt; 10&deg;C & coldest mo btw 0-18&deg;C & # of months &gt; 10&deg;C btw 1-3 & driest summer mo &lt; 40mm & driest summer mo &lt; (wettest winter mo/3)</td>
+        </tr>
+        <tr>
+            <td class="Cfa koppen">Cfa - Humid subtropical</td>
+            <td class="def">Not arid (B) & no dry season & hottest mo &ge; 22&deg;C & coldest mo btw 0-18&deg;C</td>
+        </tr>
+        <tr>
+            <td class="Cfb koppen">Cfb - Oceanic</td>
+            <td class="def">Not arid (B) & no dry season & hottest mo &gt; 10&deg;C & coldest mo btw 0-18&deg;C & # of months &gt; 10&deg;C &ge; 4</td>
+        </tr>
+        <tr>
+            <td class="Cfc koppen">Cfc - Subpolar oceanic</td>
+            <td class="def">Not arid (B) & no dry season & hottest mo &gt; 10&deg;C & coldest mo btw 0-18&deg;C & # of months &gt; 10&deg;C btw 1-3</td>
+        </tr>
+        <tr>
+            <td class="Cwa koppen">Cwa - Subtropical</td>
+            <td class="def">Not arid (B) & hottest mo &ge; 22&deg;C & coldest mo btw 0-18&deg;C & driest winter mo &lt; (wettest summer mo / 10)</td>
+        </tr>
+        <tr>
+            <td class="Cwb koppen">Cwb - Subtropical highland warm</td>
+            <td class="def">Not arid (B) & hottest mo &gt; 10&deg;C & coldest mo btw 0-18&deg;C & # of months &gt; 10&deg;C &ge; 4 & driest winter mo &lt; (wettest summer mo/10)</td>
+        </tr>
+        <tr>
+            <td class="Cwc koppen">Cwc - Subtropical highland cold</td>
+            <td class="def">Not arid (B) & hottest mo &gt; 10&deg;C & coldest mo btw 0-18&deg;C & # of months &gt; 10&deg;C btw 1-3 & driest winter mo &lt; (wettest summer mo/10)</td>
+        </tr>
+        <tr>
+            <td class="Dsa koppen">Dsa - Continental hot (dry summer)</td>
+            <td class="def">Not arid (B) & hottest mo &ge; 22&deg;C & coldest mo &le; 0&deg;C & driest summer mo &lt; 40mm & driest summer mo &lt; (wettest winter mo/3)</td>
+        </tr>
+        <tr>
+            <td class="Dsb koppen">Dsb - Hemiboreal (dry summer)</td>
+            <td class="def">Not arid (B) & hottest mo &gt; 10&deg;C & coldest mo &le; 0&deg;C & # of months &gt; 10&deg;C &ge; 4 & driest summer mo &lt; 40mm & driest summer mo &lt; (wettest winter mo/3)</td>
+        </tr>
+        <tr>
+            <td class="Dsc koppen">Dsc - Boreal (dry summer)</td>
+            <td class="def">Not arid (B) & hottest mo &gt; 10&deg;C & coldest mo &le; 0&deg;C & # of months &gt; 10&deg;C &lt; 4 & driest summer mo &lt; 40mm & driest summer mo &lt; (wettest winter mo/3)</td>
+        </tr>
+        <tr>
+            <td class="Dsd koppen">Dsd - Cold Boreal (dry summer)</td>
+            <td class="def">Not arid (B) & hottest mo &gt; 10&deg;C & coldest mo &lt; -38&deg;C & # of months &gt; 10&deg;C &lt; 4 & driest summer mo &lt; 40mm & driest summer mo &lt; (wettest winter mo/3)</td>
+        </tr>
+        <tr>
+            <td class="Dwa koppen">Dwa - Continental hot (dry winter)</td>
+            <td class="def">Not arid (B) & hottest mo &ge; 22&deg;C & coldest mo &le; 0&deg;C & driest winter mo &lt; (wettest summer mo/10)</td>
+        </tr>
+        <tr>
+            <td class="Dwb koppen">Dwb - Hemiboreal (dry winter)</td>
+            <td class="def">Not arid (B) & hottest mo &gt; 10&deg;C & coldest mo &le; 0&deg;C & # of months &gt; 10&deg;C &ge; 4 & driest winter mo &lt; (wettest summer mo/10)</td>
+        </tr>
+        <tr>
+            <td class="Dwc koppen">Dwc - Boreal (dry winter)</td>
+            <td class="def">Not arid (B) & hottest mo &gt; 10&deg;C & coldest mo &le; 0&deg;C & # of months &gt; 10&deg;C &lt; 4 & driest winter mo &lt; (wettest summer mo/10)</td>
+        </tr>
+        <tr>
+            <td class="Dwd koppen">Dwd - Cold Boreal (dry winter)</td>
+            <td class="def">Not arid (B) & hottest mo &gt; 10&deg;C & coldest mo &lt; -38&deg;C & # of months &gt; 10&deg;C &lt; 4 & driest winter mo &lt; (wettest summer mo/10)</td>
+        </tr>
+        <tr>
+            <td class="Dfa koppen">Dfa - Continental hot (no dry season)</td>
+            <td class="def">Not arid (B) & no dry season & hottest mo &ge; 22&deg;C & coldest mo &le; 0&deg;C</td>
+        </tr>
+        <tr>
+            <td class="Dfb koppen">Dfb - Hemiboreal (dry winter)</td>
+            <td class="def">Not arid (B) & no dry season & hottest mo &gt; 10&deg;C & coldest mo &le; 0&deg;C & # of months &gt; 10&deg;C &ge; 4</td>
+        </tr>
+        <tr>
+            <td class="Dfc koppen">Dfc - Boreal (dry winter)</td>
+            <td class="def">Not arid (B) & no dry season & hottest mo &gt; 10&deg;C & coldest mo &le; 0&deg;C & # of months &gt; 10&deg;C &lt; 4</td>
+        </tr>
+        <tr>
+            <td class="Dfd koppen">Dfd - Cold Boreal (dry winter)</td>
+            <td class="def">Not arid (B) & no dry season & hottest mo &gt; 10&deg;C & coldest mo &lt; -38&deg;C & # of months &gt; 10&deg;C &lt; 4</td>
+        </tr>
+        <tr>
+            <td class="ET koppen">ET - Tundra</td>
+            <td class="def">Not arid (B) & hottest mo btw 0-10&deg;C </td>
+        </tr>
+        <tr>
+            <td class="EF koppen">EF - Ice Cap</td>
+            <td class="def">Not arid (B) & hottest mo &le; 0&deg;C </td>
         </tr>
         </tbody></table>
     </div>

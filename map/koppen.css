@@ -312,7 +312,7 @@ g#voronoi {
 }
 
 /* shadow trick from bl.ocks.org */
-#tooltip {
+#tooltip, #tooltipdetail, #tooltipcode {
   font-size: 10pt;
   font-weight: 900;
   fill: white;

@@ -164,7 +164,7 @@ def koppen(s):
                 return 'Dfd'
             else:
                 return 'Dfc'
-    elif (s['temp_hottest_mo'] < 10):
+    elif (s['temp_hottest_mo'] <= 10):
         if (s['temp_hottest_mo'] > 0):
             return 'ET'
         if (s['temp_hottest_mo'] <= 0):
@@ -190,49 +190,51 @@ def koppen_name(s):
     elif (s['koppen'] == 'BSk'):
         return 'Cold steppe'
     elif (s['koppen'] == 'Csa'):
-        return 'Mediterranean hot (dry summer, hot summer)'
+        return 'Mediterranean hot'
     elif (s['koppen'] == 'Csb'):
-        return 'Mediterranean warm (dry summer, warm summer)'
+        return 'Mediterranean warm'
     elif (s['koppen'] == 'Csc'):
-        return 'Mediterranean cold (dry summer, cold summer)'
+        return 'Mediterranean cold'
     elif (s['koppen'] == 'Cfa'):
-        return 'Humid subtropical (no dry season, hot summer)'
+        return 'Humid subtropical'
     elif (s['koppen'] == 'Cfb'):
-        return 'Oceanic (no dry season, warm summer)'
+        return 'Oceanic'
     elif (s['koppen'] == 'Cfc'):
-        return 'Subpolar oceanic (no dry season, cold summer)'
+        return 'Subpolar oceanic'
     elif (s['koppen'] == 'Cwa'):
-        return 'Subtropical (Dry winter, hot summer)'
+        return 'Subtropical)'
     elif (s['koppen'] == 'Cwb'):
-        return 'Subtropical highland (dry winter, warm summer)'
+        return 'Subtropical highland warm'
     elif (s['koppen'] == 'Cwc'):
-        return 'Subtropical highland (dry winter, cold summer)'
+        return 'Subtropical highland cold'
     elif (s['koppen'] == 'Dsa'):
-        return 'Continental (dry winter, hot summer)'
+        return 'Continental (dry summer)'
     elif (s['koppen'] == 'Dwa'):
-        return 'Continental (dry summer, hot summer)'
+        return 'Continental (dry winter)'
     elif (s['koppen'] == 'Dfa'):
-        return 'Continental (no dry season, hot summer)'
+        return 'Continental (no dry season)'
     elif (s['koppen'] == 'Dsb'):
-        return 'Hemiboreal (dry summer, warm summer)'
+        return 'Hemiboreal (dry summer)'
     elif (s['koppen'] == 'Dwb'):
-        return 'Hemiboreal (dry winter, warm summer)'
+        return 'Hemiboreal (dry winter)'
     elif (s['koppen'] == 'Dfb'):
-        return 'Hemiboreal (no dry season, warm summer)'
+        return 'Hemiboreal (no dry season)'
     elif (s['koppen'] == 'Dsc'):
-        return 'Boreal (dry summer, cold summer)'
+        return 'Boreal (dry summer)'
     elif (s['koppen'] == 'Dwc'):
-        return 'Boreal (dry winter, cold summer)'
+        return 'Boreal (dry winter)'
     elif (s['koppen'] == 'Dfc'):
-        return 'Boreal (no dry season, cold summer)'
+        return 'Boreal (no dry season)'
     elif (s['koppen'] == 'Dsd'):
-        return 'Boreal (dry summer, severe winters)'
+        return 'Cold Boreal (dry summer)'
     elif (s['koppen'] == 'Dwd'):
-        return 'Boreal (dry winter, severe winters)'
+        return 'Cold Boreal (dry winter)'
     elif (s['koppen'] == 'Dfd'):
-        return 'Boreal (no dry season, severe winters)'
+        return 'Cold Boreal (no dry season)'
     elif (s['koppen'] == 'EF'):
         return 'Ice cap'
+    elif (s['koppen'] == 'ET'):
+        return 'Tundra'
     elif (s['koppen'] == 'H'):
         return 'Highland'
 
@@ -240,13 +242,13 @@ df_agg['koppen_name'] = df_agg.apply(koppen_name, axis=1)
 print("assigning Köppen classes")
 
 
-# COMMENT OUT IF ADDING TO EXISTING
+#COMMENT OUT IF ADDING TO EXISTING
 # if os.path.exists('data/koppen_class.csv'):
 #     os.rename('data/koppen_class.csv', 'data/koppen_class_old.csv')
 #
 # df_agg.to_csv(df_filename, index=False, quotechar='"', quoting=csv.QUOTE_ALL, header=True)
 # print("exporting " + df_filename)
 
-#IF EXISTING
+# #IF EXISTING
 df_agg.to_csv(df_filename, index=False, quotechar='"', mode="a", quoting=csv.QUOTE_ALL, header=False)
 print("exporting " + df_filename)
