@@ -287,15 +287,21 @@ function drawPolygons(stations) {
       // double check if the anchor needs to be changed
       let bbox = tooltip.node().getBBox();
 
-      if (bbox.x <= 0) {
+      if (bbox.x <= 100) {
         tooltip.attr("text-anchor", "start");
         tooltipdetail.attr("text-anchor", "start");
         tooltipcode.attr("text-anchor", "start");
       }
-      else if (bbox.x + bbox.width >= width) {
+      else if (bbox.x + bbox.width >= width + 140) {
         tooltip.attr("text-anchor", "end");
         tooltipdetail.attr("text-anchor", "end");
         tooltipcode.attr("text-anchor", "end");
+      }
+
+      if (bbox.y <= 50) {
+        tooltip.attr("dy", -scales.stations(station.outgoing) + 25);
+        tooltipdetail.attr("dy", -scales.stations(station.outgoing) + 40);
+        tooltipcode.attr("dy", -scales.stations(station.outgoing) + 10);
       }
 
       tooltip.style("visibility", "visible");

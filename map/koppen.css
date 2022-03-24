@@ -29,6 +29,10 @@ body {
   stroke-width:0.3;
 }
 
+#map {
+max-height:600px;
+}
+
 #legend, #legend th {
 border-collapse:collapse;
 border:solid 1px #252525;
@@ -313,8 +317,8 @@ g#voronoi {
 
 /* shadow trick from bl.ocks.org */
 #tooltip, #tooltipdetail, #tooltipcode {
-  font-size: 10pt;
-  font-weight: 900;
+  font-size: 8pt;
+  font-weight: 700;
   fill: white;
   text-shadow: 1px 1px 0 #252525, 1px -1px 0 #252525, -1px 1px 0 #252525, -1px -1px 0 #252525;
 }
