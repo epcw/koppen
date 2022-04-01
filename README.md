@@ -25,6 +25,8 @@ Order of scripts:
      - states-albers-10m.json
      - stations.csv
 
+**Important Note** - For any medium-to-large scripts, you'll need to run steps 2-5 multiple times.  For every time after the first, you will need to comment out the noted areas in NOAA_data_pull.py & koppen.py so that the scripts add to the existing data files (data/station_data.csv & data/koppen_data.csv) rather than overwrite them. 
+
 ### Data source
 National Oceanographic and Atmospheric Administration [Climate Data Online API](https://www.ncdc.noaa.gov/cdo-web/webservices/v2)\
 Dataset: Global Summary of the Month (GSOM), 1982-2021 monthly total PRCP & avg temp.
