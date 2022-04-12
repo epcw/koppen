@@ -28,7 +28,7 @@ df_filename = "data/station_data.csv"
 #     f.write('"date","datatype","station","attributes","value"\n')
 #     f.close()
 
-dates = list(range(1982, 2022))  # reminder: end date will be one year less than end of range
+dates = list(range(1930, 1982))  # reminder: end date will be one year less than end of range
 
 for s in station_list:  # iterate over station list
     for d in dates:  # iterate over date range (have to chunk this because there is the 1000 record limit per pull)
@@ -51,7 +51,7 @@ for s in station_list:  # iterate over station list
                 resp.text)  # don't stick this inside the try because when it fails, you know you've run out of requests for the day (10k/day)
             try:
                 df = pd.json_normalize(r["results"])  # json_normalize takes a nested json and makes it a flat table
-                df.to_csv(df_filename, mode='a', index=False, quotechar='"', quoting=csv.QUOTE_ALL, header=False)
+                df.to_csv(df_filename, mode='a', index=False, quotechar='"', quoting=csv.QUOTE_ALL, header=False, line_terminator='\n')
                 print("exporting " + s + " " + str(d))
             except:
                 print("skipping " + s + " " + str(
@@ -69,7 +69,7 @@ for s in station_list:  # iterate over station list
                         df = pd.json_normalize(
                             r["results"])  # json_normalize takes a nested json and makes it a flat table
                         df.to_csv(df_filename, mode='a', index=False, quotechar='"', quoting=csv.QUOTE_ALL,
-                                  header=False)
+                                  header=False, line_terminator='\n')
                         print("exporting " + s + " " + str(d))
                     except:
                         print("skipping " + s + " " + str(
@@ -94,7 +94,7 @@ for s in station_list:  # iterate over station list
                         df = pd.json_normalize(
                             r["results"])  # json_normalize takes a nested json and makes it a flat table
                         df.to_csv(df_filename, mode='a', index=False, quotechar='"', quoting=csv.QUOTE_ALL,
-                                  header=False)
+                                  header=False, line_terminator='\n')
                         print("exporting " + s + " " + str(d))
                     except:
                         print("skipping " + s + " " + str(

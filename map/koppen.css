@@ -5,6 +5,15 @@ body {
   font-family: sans-serif;
 }
 
+a {
+  color:#9d009d!important;
+  font-weight: 700;
+}
+
+a:active, a:hover, a:focus {
+  color:#ffd140!important;
+}
+
 .land {
   fill: #dddddd;
 }
@@ -33,6 +42,14 @@ body {
 max-height:600px;
 }
 
+#raw {
+    width:90%;
+    max-width: 864px;
+    margin: 0 auto;
+    text-align: left;
+    font-size: x-small;
+}
+
 #legend, #legend th {
 border-collapse:collapse;
 border:solid 1px #252525;
@@ -48,6 +65,7 @@ width:90%;
 max-width:864px;
 margin-left:auto;
 margin-right:auto;
+  margin-top:-30px;
 }
 
 #legend td, #legend tbody, #legend tr {

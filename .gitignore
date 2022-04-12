@@ -139,3 +139,8 @@ dmypy.json
 /map/edges-pacific.csv
 /stations/station_ids-full.txt
 /map/stations-pacific.csv
+/stations/FIPS_counties_idaho.txt
+/stations/station_ids_us-west-no-idaho.txt
+/stations/station_list-us-west-no-idaho.csv
+/stations/station_ids-generated.txt
+/stations/station_list_idaho.csv

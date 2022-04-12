@@ -13,7 +13,7 @@ token = open('token.key', 'r').read().rstrip('\n')
 
 #TEST CURL to list stations in FIPS - curl -H "token:TOKEN" "https://www.ncdc.noaa.gov/cdo-web/api/v2/stations?locationid=FIPS:53033&startdate=2016-01-01&limit=1000" > ~/Dropbox/EPCW/Projects/Koppen/sample.json
 
-fips_list = open("stations/FIPS_counties_usmountainwest.txt", 'r').read().splitlines() #replace file with list of FIPS counties that you're interested in
+fips_list = open("stations/FIPS_counties_uscontinentalwest.txt", 'r').read().splitlines() #replace file with list of FIPS counties that you're interested in
 df_filename = "stations/station_list.csv"
 df_listfile = "stations/station_ids.txt"
 if os.path.exists('stations/station_list.csv'):
