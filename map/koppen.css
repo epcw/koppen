@@ -5,12 +5,12 @@ body {
   font-family: sans-serif;
 }
 
-a {
+#raw a {
   color:#9d009d!important;
   font-weight: 700;
 }
 
-a:active, a:hover, a:focus {
+#raw a:active, #raw a:hover, #raw a:focus {
   color:#ffd140!important;
 }
 

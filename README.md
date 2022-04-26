@@ -1,5 +1,5 @@
 # Center for Equitable Policy in a Changing World
-##The Changing Köppen Climate of the US West
+## The Changing Köppen Climate of the US West
 
 ### Project Description:
 This is an initial attempt to visualize the changing climate in the American West by using NWS data to define changing Köppen classifications over the past 40 years.
