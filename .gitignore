@@ -144,3 +144,6 @@ dmypy.json
 /stations/station_list-us-west-no-idaho.csv
 /stations/station_ids-generated.txt
 /stations/station_list_idaho.csv
+/stations/FIPS_counties_az.txt
+/stations/station_ids_no-az.txt
+/stations/station_list_no-az.csv
