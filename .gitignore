@@ -147,3 +147,6 @@ dmypy.json
 /stations/FIPS_counties_az.txt
 /stations/station_ids_no-az.txt
 /stations/station_list_no-az.csv
+/map/stations_pilot.csv
+/map/edges_pilot.csv
+/map/stations_10.csv

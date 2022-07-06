@@ -7,13 +7,13 @@ const urls = {
 //  stations:
 //    "https://gist.githubusercontent.com/mbostock/7608400/raw/e5974d9bba45bc9ab272d98dd7427567aafd55bc/stations.csv",
   stations:
-    "/koppen/map/stations.csv",
+    "/koppen/map/stations_30.csv",
 
   // source: https://gist.github.com/mbostock/7608400
 //  edges:
 //  "https://gist.githubusercontent.com/mbostock/7608400/raw/e5974d9bba45bc9ab272d98dd7427567aafd55bc/flights.csv"
     edges:
-    "/koppen/map/edges.csv"
+    "/koppen/map/edges_30.csv"
 };
 
 const svg  = d3.select("svg");
@@ -61,6 +61,7 @@ console.assert(tooltipcode.size() === 1);
 //var minyear = d3.min(stations.year, function (d) { return d.val; });
 //var maxyear = d3.max(stations.year, function (d) { return d.val; });
 var year = 1982;
+var years_averaged = 30;
 
 // load and draw base map
 d3.json(urls.map).then(drawMap);
@@ -78,7 +79,7 @@ d3.json(urls.map).then(drawMap);
 Promise.all(promises).then(processData);
 
 d3.select("#year").on("input", function () {
-    year = +this.value;
+    year = this.value;
     d3.select('#year-value').text(year);
 //    d3.select('#year').attr("min", minyear);
 //    d3.select('#year').attr("max", maxyear);
@@ -92,6 +93,17 @@ d3.select("#year").on("input", function () {
     //     drawStations(g.stations);
     //   });
   });
+
+//d3.select("#timeline").on("input", function () {
+//    years_averaged = +this.value;
+//    d3.select('#timeline-value').text(years_averaged);
+////    d3.select('#year').attr("min", minyear);
+////    d3.select('#year').attr("max", maxyear);
+//    g.stations.selectAll('circle').remove();
+//    g.voronoi.selectAll('path').remove();
+//
+//    Promise.all(promises).then(processData);
+//  });
 
 // process station and  data
 function processData(values) {
@@ -222,6 +234,17 @@ function drawStations(stations) {
       d.bubble = this;
     });
 }
+
+// ** Update data section (Called from the onclick)
+function updateStation15() {
+
+    // Get the data again
+    const urls = { stations: "/koppen/map/stations_15.csv"};
+
+     var svg = d3.select("body").transition();
+    drawStations(stations);
+
+};
 
 function drawPolygons(stations) {
   // convert array of stations into geojson format

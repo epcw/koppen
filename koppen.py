@@ -11,9 +11,10 @@ df = pd.read_csv('data/station_data.csv')
 df['date'] = pd.to_datetime(df['date'])  # converts the date string to datetime
 # df['date'] = df['date'].dt.date #drops the midnight timestamp - comment out if this is actually meaningful for you
 
-df_station_list = pd.read_csv('stations/station_list.csv')
+df_station_list = pd.read_csv('stations/station_list_complete.csv')
 df_station_list = df_station_list[['elevation', 'mindate', 'maxdate', 'latitude', 'longitude', 'name', 'id']]
 df_station_list = df_station_list.rename(columns={'id': 'station'})
+df_station_list['elevation'] = pd.to_numeric(df_station_list.elevation, errors='coerce') #this accounts for some wacko cells in the elevation column - probably string NaNs or "N/A" or "unknown" or some other manual notes written in grease pen from a surveyor in like 1943.
 
 df = df.merge(df_station_list, how='inner', left_on=['station'], right_on=['station'])
 

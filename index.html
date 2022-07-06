@@ -181,6 +181,19 @@
     </label>
     </div>
     <div class="spacer"></div>
+    <div id="option">
+        <input name="updateButton"
+               type="button"
+               value="15-year timescale"
+               onclick="updateStation15()" />
+    </div>
+<!--    <div id="slider_timeline" style="width:90%;">
+    <label for="nVel">
+      Timespan = <span id="timeline-value">30</span>
+      <input style="width: 200px;" type="range" min="1" max="30" step="10" id="timeline" value="30">
+    </label>
+    </div>-->
+    <div class="spacer"></div>
     <!-- must be 960x600 to match topojson us atlas files -->
 <!-- <svg width="960" height="600">-->
     <svg id="map" width="90%" height="90%" style="max-width:960px;">
@@ -333,7 +346,7 @@
 </div>
 
 <script type="text/javascript" src="/koppen/map/koppen.js"></script>
-<script type="text/javascript" src="/koppen/map/color-stations.js"></script>
+<!--<script type="text/javascript" src="/koppen/map/color-stations.js"></script>-->
 
 <a name="footer"></a>
 
