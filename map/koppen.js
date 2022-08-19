@@ -7,12 +7,14 @@ const urls = {
 //  stations:
 //    "https://gist.githubusercontent.com/mbostock/7608400/raw/e5974d9bba45bc9ab272d98dd7427567aafd55bc/stations.csv",
   stations:
-    "/koppen/map/stations_30.csv",
+    // "/koppen/map/stations_pilot.csv",
+    "/koppen/map/stations30.csv",
 
   // source: https://gist.github.com/mbostock/7608400
 //  edges:
 //  "https://gist.githubusercontent.com/mbostock/7608400/raw/e5974d9bba45bc9ab272d98dd7427567aafd55bc/flights.csv"
     edges:
+    // "/koppen/map/edges_pilot.csv"
     "/koppen/map/edges_30.csv"
 };
 
@@ -60,8 +62,9 @@ console.assert(tooltipcode.size() === 1);
 //pzed create base year
 //var minyear = d3.min(stations.year, function (d) { return d.val; });
 //var maxyear = d3.max(stations.year, function (d) { return d.val; });
-var year = 1982;
-var years_averaged = 30;
+//var year = 1982;
+//var years_averaged = 30;
+var year = 30;
 
 // load and draw base map
 d3.json(urls.map).then(drawMap);
@@ -235,16 +238,16 @@ function drawStations(stations) {
     });
 }
 
-// ** Update data section (Called from the onclick)
-function updateStation15() {
-
-    // Get the data again
-    const urls = { stations: "/koppen/map/stations_15.csv"};
-
-     var svg = d3.select("body").transition();
-    drawStations(stations);
-
-};
+// ** Update data section (Called from the onclick) // PWZ kill this and don't try to do it on all one page.
+//function updateStation15() {
+//
+//    // Get the data again
+//    const urls = { stations: "/koppen/map/stations_15.csv", edges: "/koppen/map/edges_15.csv"};
+//
+//     var svg = d3.select("body").transition();
+//    drawStations(stations);
+//    drawedges(stations, edges);
+//};
 
 function drawPolygons(stations) {
   // convert array of stations into geojson format
@@ -305,7 +308,7 @@ function drawPolygons(stations) {
       // set the tooltip text
       tooltipcode.text("Station: " + station.noaa);
       tooltip.text(station.name + " (" + station.elevation + "m)");
-      tooltipdetail.text(station.year + " | " + station.koppen + " - " + station.koppen_name);
+      tooltipdetail.text(station.year + " year average | " + station.koppen + " - " + station.koppen_name);
 
       // double check if the anchor needs to be changed
       let bbox = tooltip.node().getBBox();

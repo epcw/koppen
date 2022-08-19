@@ -23,7 +23,7 @@ df['year_half'] = 'summer'
 df.loc[df['date'].dt.month.isin(winter_months), 'year_half'] = 'winter'
 
 df['year'] = df['date'].dt.year
-years_to_avg = [5, 10, 15, 20, 30] # don't bother to include the 1 since you don't have to calc this as a rolling function POSSIBLY NAME TIMESCALE FOR PEOPLE WHO AREN'T ME AND RICH TO KNOW WHAT THE FUCK THIS IS
+years_to_avg = [5, 10, 15, 20, 25, 30] # don't bother to include the 1 since you don't have to calc this as a rolling function POSSIBLY NAME TIMESCALE FOR PEOPLE WHO AREN'T ME AND RICH TO KNOW WHAT THE FUCK THIS IS
 
 # calculate temperature metrics per station per year
 df_temp = df[(df['datatype'] == 'TAVG')]
