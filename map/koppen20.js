@@ -308,7 +308,7 @@ function drawPolygons(stations) {
       // set the tooltip text
       tooltipcode.text("Station: " + station.noaa);
       tooltip.text(station.name + " (" + station.elevation + "m)");
-      tooltipdetail.text(station.year + " year average | " + station.koppen + " - " + station.koppen_name);
+      tooltipdetail.text(station.year + " | " + station.koppen + " - " + station.koppen_name);
 
       // double check if the anchor needs to be changed
       let bbox = tooltip.node().getBBox();
