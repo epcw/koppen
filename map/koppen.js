@@ -8,7 +8,7 @@ const urls = {
 //    "https://gist.githubusercontent.com/mbostock/7608400/raw/e5974d9bba45bc9ab272d98dd7427567aafd55bc/stations.csv",
   stations:
     // "/koppen/map/stations_pilot.csv",
-    "/koppen/map/stations30.csv",
+    "/koppen/map/stations_30.csv",
 
   // source: https://gist.github.com/mbostock/7608400
 //  edges:
@@ -64,7 +64,7 @@ console.assert(tooltipcode.size() === 1);
 //var maxyear = d3.max(stations.year, function (d) { return d.val; });
 //var year = 1982;
 //var years_averaged = 30;
-var year = 30;
+var year = 1945;
 
 // load and draw base map
 d3.json(urls.map).then(drawMap);

@@ -178,18 +178,22 @@
     <label for="nVel">
 <!--      Years in climate calculation = <span id="year-value">30</span>-->
 <!--      <input style="width: 200px;" type="range" min="5" max="30" id="year" value="30" step='5'>-->
-      Year = <span id="year-value">1982</span>
-      <input style="width: 200px;" type="range" min="1930" max="2021" id="year" value="1982" step='1'>
+      Year = <span id="year-value">1945</span>
+      <input style="width: 200px;" type="range" min="1945" max="2007" id="year" value="1945" step='1'>
     </label>
     </div>
     <div class="spacer"></div>
-<!--    <div id="option">-->
-<!--        <input name="updateButton"-->
-<!--               type="button"-->
-<!--               value="15-year timescale"-->
-<!--               onclick="updateStation15()" />-->
-<!--    </div>-->
-<!--    <div id="slider_timeline" style="width:90%;">
+    <div id="timescale">
+        <ul>
+            <li><a href="/koppen/5/index.html">5-year timescale</a></li>
+            <li><a href="/koppen/10/index.html">10-year timescale</a></li>
+            <li><a href="/koppen/15/index.html">15-year timescale</a></li>
+            <li><a href="/koppen/20/index.html">20-year timescale</a></li>
+            <li><a href="/koppen/25/index.html">25-year timescale</a></li>
+            <li class="active">Default (30-year timescale)</li>
+        </ul>
+    </div>
+    <!--    <div id="slider_timeline" style="width:90%;">
     <label for="nVel">
       Timespan = <span id="timeline-value">30</span>
       <input style="width: 200px;" type="range" min="1" max="30" step="10" id="timeline" value="30">
