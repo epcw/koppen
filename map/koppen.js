@@ -8,14 +8,14 @@ const urls = {
 //    "https://gist.githubusercontent.com/mbostock/7608400/raw/e5974d9bba45bc9ab272d98dd7427567aafd55bc/stations.csv",
   stations:
     // "/koppen/map/stations_pilot.csv",
-    "/koppen/map/stations_30.csv",
+    "/koppen/map/stations_weighted.csv",
 
   // source: https://gist.github.com/mbostock/7608400
 //  edges:
 //  "https://gist.githubusercontent.com/mbostock/7608400/raw/e5974d9bba45bc9ab272d98dd7427567aafd55bc/flights.csv"
     edges:
     // "/koppen/map/edges_pilot.csv"
-    "/koppen/map/edges_30.csv"
+    "/koppen/map/edges_weighted.csv"
 };
 
 const svg  = d3.select("svg");
@@ -64,7 +64,8 @@ console.assert(tooltipcode.size() === 1);
 //var maxyear = d3.max(stations.year, function (d) { return d.val; });
 //var year = 1982;
 //var years_averaged = 30;
-var year = 1945;
+var year = 2020;
+var tag = 'LR';
 
 // load and draw base map
 d3.json(urls.map).then(drawMap);
@@ -90,24 +91,27 @@ d3.select("#year").on("input", function () {
     g.voronoi.selectAll('path').remove();
 
     Promise.all(promises).then(processData);
+//
+//     g.stations.selectAll('circle').each(function(d) {
+//         drawStations(g.stations);
+//       });
+  });
+
+d3.select("#weight").on("change", function () {
+    tag = this.value;
+       // var selectedGroup = d3.select(this).property("value")
+           // run the updateChart function with this selected option
+    g.stations.selectAll('circle').remove();
+    g.voronoi.selectAll('path').remove();
+    // var dataFilter = data.filter(function(d){ return d.tag == selectedGroup })
+
+    Promise.all(promises).then(processData);
 
 
     // g.stations.selectAll('circle').each(function(d) {
     //     drawStations(g.stations);
     //   });
   });
-
-//d3.select("#timeline").on("input", function () {
-//    years_averaged = +this.value;
-//    d3.select('#timeline-value').text(years_averaged);
-////    d3.select('#year').attr("min", minyear);
-////    d3.select('#year').attr("max", maxyear);
-//    g.stations.selectAll('circle').remove();
-//    g.voronoi.selectAll('path').remove();
-//
-//    Promise.all(promises).then(processData);
-//  });
-
 // process station and  data
 function processData(values) {
   console.assert(values.length === 2);
@@ -133,7 +137,9 @@ function processData(values) {
 
   // filter for year
   let oldyear = stations.year;
+  let oldtag = stations.tag;
   stations = stations.filter(station => station.year == year );
+  stations = stations.filter(station => station.tag == tag);
 
   // remove stations out of bounds
   let old = stations.length;

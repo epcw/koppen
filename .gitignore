@@ -150,3 +150,5 @@ dmypy.json
 /map/stations_pilot.csv
 /map/edges_pilot.csv
 /map/stations_10.csv
+/moving_average_data/
+/notebooks/

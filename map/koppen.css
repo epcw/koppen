@@ -354,13 +354,15 @@ font-size:smaller;
 .spacer {
 height:2em;
 }
+#user_choice {
+  display:flex;
+}
 #timescale ul {
   display:flex;
   align-content: center;
   list-style: none;
   font-size:small;
 }
-
 #timescale ul li {
   margin:auto;
   width: 190px;
