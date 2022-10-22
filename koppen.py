@@ -10,7 +10,6 @@ df_filename = 'data/koppen_class.csv'
 
 df = pd.read_csv('data/station_data.csv')
 df['date'] = pd.to_datetime(df['date'])  # converts the date string to datetime
-# df['date'] = df['date'].dt.date #drops the midnight timestamp - comment out if this is actually meaningful for you
 
 df_station_list = pd.read_csv('stations/station_list_complete.csv')
 df_station_list = df_station_list[['elevation', 'mindate', 'maxdate', 'latitude', 'longitude', 'name', 'id']]
@@ -221,243 +220,48 @@ df_agg = df_agg.merge(df_win_wet, how="outer",  left_on=['station', 'year','year
 ########
 
 df_temp_agg = df_agg
-
-# # calculate temperature metrics per station per year
-# df_temp = df[(df['datatype'] == 'TAVG')]
-# df_temp = df_temp[['date', 'year', 'datatype', 'station', 'value']]
 #
-# df_temp = df_temp.drop_duplicates()
-#
-# df_temp['num_mo_btw_10-22C'] = 0
-# df_temp.loc[(df_temp['value'] > 10) & (df_temp['value'] < 22), 'num_mo_btw_10-22C'] = 1
-# df_agg = df_temp.groupby(['station', 'year'])[['num_mo_btw_10-22C']].sum().reset_index()
-# df_agg['years_averaged'] = 1
-# df_agg['num_mo_btw_10-22C'] = df_agg['num_mo_btw_10-22C'].astype('float64')
-# df_agg['year'] = df_agg['year'].astype('int')
-# df_agg['years_averaged'] = df_agg['years_averaged'].astype('int')
-#
-# df_temp_agg = df_agg
-#
-# df_temp_test = df_agg[(df_agg['station'] == 'GHCND:USW00023272') | (df_agg['station'] == 'GHCND:USW00024233') | (df_agg['station'] == 'GHCND:USW00023234')]
-#
-# for y in years_to_avg:
-#     df_temp_agg_temp = df_temp_agg.groupby(['station']).rolling(y,y, center=True,on='year').mean().reset_index()
-#     df_temp_agg_temp = df_temp_agg_temp.drop(columns="level_1")
-#     df_temp_agg_temp['years_averaged'] = y
-#     df_agg = pd.concat([df_agg,df_temp_agg_temp],axis=0).drop_duplicates()
-#
-# df_temp_agg = df_temp.groupby(['station', 'year'])[['value']].min().reset_index()
-# df_temp_agg = df_temp_agg.rename(columns={'value': 'temp_coldest_mo'})
-# df_temp_agg['years_averaged'] = 1
-# df_coldest = df_temp_agg
-#
-# for y in years_to_avg:
-#     df_temp_agg_temp = df_temp_agg.groupby(['station']).rolling(y,y, center=True,on='year').mean().reset_index()
-#     df_temp_agg_temp = df_temp_agg_temp.drop(columns="level_1")
-#     df_temp_agg_temp['years_averaged'] = y
-#     df_coldest = pd.concat([df_coldest,df_temp_agg_temp],axis=0).drop_duplicates()
-#
-# df_agg = df_agg.merge(df_coldest, how="outer",  left_on=['station', 'year','years_averaged'], right_on=['station', 'year','years_averaged']).drop_duplicates()
-#
-# df_temp_agg = df_temp.groupby(['station', 'year'])[['value']].max().reset_index()
-# df_temp_agg = df_temp_agg.rename(columns={'value': 'temp_hottest_mo'})
-# df_temp_agg['years_averaged'] = 1
-# df_hottest = df_temp_agg
-#
-# for y in years_to_avg:
-#     df_temp_agg_temp = df_temp_agg.groupby(['station']).rolling(y,y, center=True,on='year').mean().reset_index()
-#     df_temp_agg_temp = df_temp_agg_temp.drop(columns="level_1")
-#     df_temp_agg_temp['years_averaged'] = y
-#     df_hottest = pd.concat([df_hottest,df_temp_agg_temp],axis=0).drop_duplicates()
-#
-# df_agg = df_agg.merge(df_hottest, how="outer",  left_on=['station', 'year','years_averaged'], right_on=['station', 'year','years_averaged']).drop_duplicates()
-#
-# df_temp_agg = df_temp.groupby(['station', 'year'])[['value']].mean().reset_index()
-# df_temp_agg = df_temp_agg.rename(columns={'value': 'avg_annual_temp(t)'})
-# df_temp_agg['years_averaged'] = 1
-# df_mean = df_temp_agg
-#
-# for y in years_to_avg:
-#     df_temp_agg_temp = df_temp_agg.groupby(['station']).rolling(y,y, center=True,on='year').mean().reset_index()
-#     df_temp_agg_temp = df_temp_agg_temp.drop(columns="level_1")
-#     df_temp_agg_temp['years_averaged'] = y
-#     df_mean = pd.concat([df_mean,df_temp_agg_temp],axis=0).drop_duplicates()
-#
-# df_agg = df_agg.merge(df_mean, how="outer",  left_on=['station', 'year','years_averaged'], right_on=['station', 'year','years_averaged']).drop_duplicates()
-#
-# del_list = [df_temp, df_temp_agg, df_temp_agg_temp, df_coldest,df_hottest,df_mean]
-# del del_list
-# del df_temp
-# del df_temp_agg
-# del df_temp_agg_temp
-# del df_coldest
-# del df_hottest
-# del df_mean
-#
-# # calculate precipitation metrics per station per year
-# df_prcp = df[(df['datatype'] == 'PRCP')]
-# df_prcp = df_prcp[['date', 'year', 'datatype', 'station', 'value', 'year_half']]
-# df_prcp = df_prcp.drop_duplicates()
-# df_prcp_agg = df_prcp.groupby(['station', 'year'])[['value']].min().reset_index()
-# df_prcp_agg = df_prcp_agg.rename(columns={'value': 'prcp_driest_mo'})
-# df_prcp_agg['years_averaged'] = 1
-# df_prcp_agg['years_averaged'] = df_prcp_agg['years_averaged'].astype('int')
-# df_driest = df_prcp_agg
-#
-# for y in years_to_avg:
-#     df_prcp_agg_temp = df_prcp_agg.groupby(['station']).rolling(y,y, center=True,on='year').mean().reset_index()
-#     df_prcp_agg_temp = df_prcp_agg_temp.drop(columns="level_1")
-#     df_prcp_agg_temp['years_averaged'] = y
-#     df_driest = pd.concat([df_driest,df_prcp_agg_temp],axis=0).drop_duplicates()
-#
-# df_agg = df_agg.merge(df_driest, how="outer",  left_on=['station', 'year','years_averaged'], right_on=['station', 'year','years_averaged']).drop_duplicates()
-#
-# df_prcp_agg = df_prcp.groupby(['station', 'year'])[['value']].max().reset_index()
-# df_prcp_agg = df_prcp_agg.rename(columns={'value': 'prcp_wettest_mo'})
-# df_prcp_agg['years_averaged'] = 1
-# df_prcp_agg['years_averaged'] = df_prcp_agg['years_averaged'].astype('int')
-# df_wettest = df_prcp_agg
-#
-# for y in years_to_avg:
-#     df_prcp_agg_temp = df_prcp_agg.groupby(['station']).rolling(y,y, center=True,on='year').mean().reset_index()
-#     df_prcp_agg_temp = df_prcp_agg_temp.drop(columns="level_1")
-#     df_prcp_agg_temp['years_averaged'] = y
-#     df_wettest = pd.concat([df_wettest,df_prcp_agg_temp],axis=0).drop_duplicates()
-#
-# df_agg = df_agg.merge(df_wettest, how="outer",  left_on=['station', 'year','years_averaged'], right_on=['station', 'year','years_averaged']).drop_duplicates()
-#
-# df_prcp_agg = df_prcp.groupby(['station', 'year'])[['value']].sum().reset_index()
-# df_prcp_agg = df_prcp_agg.rename(columns={'value': 'annual_prcp(r)'})
-# df_prcp_agg['years_averaged'] = 1
-# df_prcp_agg['years_averaged'] = df_prcp_agg['years_averaged'].astype('int')
-# df_tot = df_prcp_agg
-#
-# for y in years_to_avg:
-#     df_prcp_agg_temp = df_prcp_agg.groupby(['station']).rolling(y,y, center=True,on='year').mean().reset_index()
-#     df_prcp_agg_temp = df_prcp_agg_temp.drop(columns="level_1")
-#     df_prcp_agg_temp['years_averaged'] = y
-#     df_tot = pd.concat([df_tot,df_prcp_agg_temp],axis=0).drop_duplicates()
-#
-# df_agg = df_agg.merge(df_tot, how="outer",  left_on=['station', 'year','years_averaged'], right_on=['station', 'year','years_averaged']).drop_duplicates()
-#
-# df_prcp_summer = df_prcp[(df_prcp['year_half'] == 'summer')]
-#
-# df_prcp_summer_agg = df_prcp_summer.groupby(['station', 'year'])[['value']].sum().reset_index()
-# df_prcp_summer_agg = df_prcp_summer_agg.rename(columns={'value': 'prcp_summer'})
-# df_prcp_summer_agg['years_averaged'] = 1
-# df_prcp_summer_agg['years_averaged'] = df_prcp_agg['years_averaged'].astype('int')
-# df_sum_tot = df_prcp_summer_agg
-#
-# for y in years_to_avg:
-#     df_prcp_summer_agg_temp = df_prcp_summer_agg.groupby(['station']).rolling(y,y, center=True,on='year').mean().reset_index()
-#     df_prcp_summer_agg_temp = df_prcp_summer_agg_temp.drop(columns="level_1")
-#     df_prcp_summer_agg_temp['years_averaged'] = y
-#     df_sum_tot = pd.concat([df_sum_tot,df_prcp_summer_agg_temp],axis=0).drop_duplicates()
-#
-# df_agg = df_agg.merge(df_sum_tot, how="outer",  left_on=['station', 'year','years_averaged'], right_on=['station', 'year','years_averaged']).drop_duplicates()
-#
-# df_prcp_summer_agg = df_prcp_summer.groupby(['station', 'year'])[['value']].min().reset_index()
-# df_prcp_summer_agg = df_prcp_summer_agg.rename(columns={'value': 'prcp_driest_mo_summer'})
-# df_prcp_summer_agg['years_averaged'] = 1
-# df_prcp_summer_agg['years_averaged'] = df_prcp_agg['years_averaged'].astype('int')
-# df_sum_dry = df_prcp_summer_agg
-#
-# for y in years_to_avg:
-#     df_prcp_summer_agg_temp = df_prcp_summer_agg.groupby(['station']).rolling(y,y, center=True,on='year').mean().reset_index()
-#     df_prcp_summer_agg_temp = df_prcp_summer_agg_temp.drop(columns="level_1")
-#     df_prcp_summer_agg_temp['years_averaged'] = y
-#     df_sum_dry = pd.concat([df_sum_dry,df_prcp_summer_agg_temp],axis=0).drop_duplicates()
-#
-# df_agg = df_agg.merge(df_sum_dry, how="outer",  left_on=['station', 'year','years_averaged'], right_on=['station', 'year','years_averaged']).drop_duplicates()
-#
-# df_prcp_summer_agg = df_prcp_summer.groupby(['station', 'year'])[['value']].max().reset_index()
-# df_prcp_summer_agg = df_prcp_summer_agg.rename(columns={'value': 'prcp_wettest_mo_summer'})
-# df_prcp_summer_agg['years_averaged'] = 1
-# df_prcp_summer_agg['years_averaged'] = df_prcp_agg['years_averaged'].astype('int')
-# df_sum_wet = df_prcp_summer_agg
-#
-# for y in years_to_avg:
-#     df_prcp_summer_agg_temp = df_prcp_summer_agg.groupby(['station']).rolling(y,y, center=True,on='year').mean().reset_index()
-#     df_prcp_summer_agg_temp = df_prcp_summer_agg_temp.drop(columns="level_1")
-#     df_prcp_summer_agg_temp['years_averaged'] = y
-#     df_sum_wet = pd.concat([df_sum_wet,df_prcp_summer_agg_temp],axis=0).drop_duplicates()
-#
-# df_agg = df_agg.merge(df_sum_wet, how="outer",  left_on=['station', 'year','years_averaged'], right_on=['station', 'year','years_averaged']).drop_duplicates()
-#
-# df_prcp_winter = df_prcp[(df_prcp['year_half'] == 'winter')]
-#
-# df_prcp_winter_agg = df_prcp_winter.groupby(['station', 'year'])[['value']].sum().reset_index()
-# df_prcp_winter_agg = df_prcp_winter_agg.rename(columns={'value': 'prcp_winter'})
-# df_prcp_winter_agg['years_averaged'] = 1
-# df_prcp_winter_agg['years_averaged'] = df_prcp_agg['years_averaged'].astype('int')
-# df_win_tot = df_prcp_winter_agg
-#
-# for y in years_to_avg:
-#     df_prcp_winter_agg_temp = df_prcp_winter_agg.groupby(['station']).rolling(y,y, center=True,on='year').mean().reset_index()
-#     df_prcp_winter_agg_temp = df_prcp_winter_agg_temp.drop(columns="level_1")
-#     df_prcp_winter_agg_temp['years_averaged'] = y
-#     df_win_tot = pd.concat([df_win_tot,df_prcp_winter_agg_temp],axis=0).drop_duplicates()
-#
-# df_agg = df_agg.merge(df_win_tot, how="outer",  left_on=['station', 'year','years_averaged'], right_on=['station', 'year','years_averaged']).drop_duplicates()
-#
-# df_prcp_winter_agg = df_prcp_winter.groupby(['station', 'year'])[['value']].min().reset_index()
-# df_prcp_winter_agg = df_prcp_winter_agg.rename(columns={'value': 'prcp_driest_mo_winter'})
-# df_prcp_winter_agg['years_averaged'] = 1
-# df_prcp_winter_agg['years_averaged'] = df_prcp_agg['years_averaged'].astype('int')
-# df_win_dry = df_prcp_winter_agg
-#
-# for y in years_to_avg:
-#     df_prcp_winter_agg_temp = df_prcp_winter_agg.groupby(['station']).rolling(y,y, center=True,on='year').mean().reset_index()
-#     df_prcp_winter_agg_temp = df_prcp_winter_agg_temp.drop(columns="level_1")
-#     df_prcp_winter_agg_temp['years_averaged'] = y
-#     df_win_dry = pd.concat([df_win_dry,df_prcp_winter_agg_temp],axis=0).drop_duplicates()
-#
-# df_agg = df_agg.merge(df_win_dry, how="outer",  left_on=['station', 'year','years_averaged'], right_on=['station', 'year','years_averaged']).drop_duplicates()
-#
-# df_prcp_winter_agg = df_prcp_winter.groupby(['station', 'year'])[['value']].max().reset_index()
-# df_prcp_winter_agg = df_prcp_winter_agg.rename(columns={'value': 'prcp_wettest_mo_winter'})
-# df_prcp_winter_agg['years_averaged'] = 1
-# df_prcp_winter_agg['years_averaged'] = df_prcp_agg['years_averaged'].astype('int')
-# df_win_wet = df_prcp_winter_agg
-#
-# for y in years_to_avg:
-#     df_prcp_winter_agg_temp = df_prcp_winter_agg.groupby(['station']).rolling(y,y, center=True,on='year').mean().reset_index()
-#     df_prcp_winter_agg_temp = df_prcp_winter_agg_temp.drop(columns="level_1")
-#     df_prcp_winter_agg_temp['years_averaged'] = y
-#     df_win_wet = pd.concat([df_win_wet,df_prcp_winter_agg_temp],axis=0).drop_duplicates()
-#
-# df_agg = df_agg.merge(df_win_wet, how="outer",  left_on=['station', 'year','years_averaged'], right_on=['station', 'year','years_averaged']).drop_duplicates()
-#
-# del_list = [df, df_prcp_winter_agg, df_prcp_winter, df_prcp_summer, df_prcp_summer_agg, df_prcp_agg,df_prcp_agg_temp, df_prcp, df_driest, df_wettest, df_win_dry,df_win_tot,df_win_wet,df_sum_dry,df_sum_tot,df_sum_wet,df_prcp_summer_agg_temp, df_prcp_winter_agg_temp, df_tot]
-# del del_list
-# del df
-# del df_prcp_winter_agg
-# del df_prcp_winter
-# del df_prcp_summer
-# del df_prcp_summer_agg
-# del df_prcp_agg
-# del df_prcp_agg_temp
-# del df_prcp
-# del df_sum_wet
-# del df_sum_tot
-# del df_sum_dry
-# del df_win_wet
-# del df_win_tot
-# del df_win_dry
-# del df_wettest
-# del df_driest
-# del df_prcp_summer_agg_temp
-# del df_prcp_winter_agg_temp
-# del df_tot
-#
-# # bring in the station location data
-# df_agg = df_agg.merge(df_station_list, how="left", left_on=['station'], right_on=['station'])
+# stations = {
+#     'SF downtown': 'GHCND:USW00023272',
+#     'SEA':         'GHCND:USW00024233',
+#     'SFO':         'GHCND:USW00023234'
+# }
 
 target_cols = [ c for c in df_temp_agg.columns if c not in ['station', 'year', 'years_averaged'] ]
-for c in sorted(target_cols):
-    print(c)
+#
+# target_col = target_cols[0]
 
-target_col = target_cols[0]
+target_col = target_cols[6]
+
+n_years = 30
+roll_avg_suffix = f'_{n_years}yr_roll_avg'
+roll_avg_col = f'{target_col}{roll_avg_suffix}'
+
+new_df = df_temp_agg.groupby(['station']).rolling(1, on='year')[target_col].mean()
+roll_avg_df = df_temp_agg.merge(new_df.to_frame().reset_index(),
+                                how='inner',
+                                right_on=['station', 'year'],
+                                left_on=['station', 'year'],
+                                suffixes=('', roll_avg_suffix)
+                                )
+
+
+new_df = df_temp_agg.groupby(['station']).rolling(n_years, on='year', center=False)[target_col].mean()
+roll_avg_df = df_temp_agg.merge(new_df.to_frame().reset_index(),
+                                how='inner',
+                                right_on=['station', 'year'],
+                                left_on=['station', 'year'],
+                                suffixes=('', roll_avg_suffix)
+                                )
+
+
+new_df = df_temp_agg.groupby(['station']).rolling(n_years, on='year', center=True)[target_col].mean()
+roll_avg_df = df_temp_agg.merge(new_df.to_frame().reset_index(),
+                                how='inner',
+                                right_on=['station', 'year'],
+                                left_on=['station', 'year'],
+                                suffixes=('', roll_avg_suffix)
+                                )
 
 
 def station_result(station_name, station, target_cols, df_temp_agg, n_years=30, min_year=1992, max_year=2025,
@@ -467,7 +271,31 @@ def station_result(station_name, station, target_cols, df_temp_agg, n_years=30, 
     df_result = None
 
     for target_col in target_cols:
-        roll_avg_suffix = f'_{n_years}yr_roll_avg'
+        ##########################
+        ## standard moving average
+        ##########################
+        roll_avg_suffix = f'_{n_years}yr_roll_avg_standard'
+        roll_avg_col_standard = f'{target_col}{roll_avg_suffix}'
+
+        new_df = df_temp_agg[station_filter].groupby(['station']).rolling(n_years, on='year', center=False)[
+            target_col].mean()
+        roll_avg_df = df_temp_agg.merge(new_df.to_frame().reset_index(),
+                                        how='inner',
+                                        right_on=['station', 'year'],
+                                        left_on=['station', 'year'],
+                                        suffixes=('', roll_avg_suffix)
+                                        )
+
+        combo = roll_avg_df[['station', 'year', target_col]]
+
+        right = roll_avg_df[roll_avg_df['station'] == station][['station', 'year', roll_avg_col_standard]]
+        combo = combo.merge(right, on=['station', 'year'], how='left')
+
+        ##########################
+        ## centered moving average
+        ##########################
+
+        roll_avg_suffix = f'_{n_years}yr_roll_avg_centered'
         roll_avg_col = f'{target_col}{roll_avg_suffix}'
 
         new_df = df_temp_agg[station_filter].groupby(['station']).rolling(n_years, on='year', center=True)[
@@ -479,10 +307,14 @@ def station_result(station_name, station, target_cols, df_temp_agg, n_years=30, 
                                         suffixes=('', roll_avg_suffix)
                                         )
 
-        combo = roll_avg_df[['station', 'year', target_col]]
+        # combo = roll_avg_df[['station', 'year', target_col]]
 
         right = roll_avg_df[roll_avg_df['station'] == station][['station', 'year', roll_avg_col]]
         combo = combo.merge(right, on=['station', 'year'], how='left')
+
+        ######################################
+        ## Linear regression for extrapolation
+        ######################################
 
         data = roll_avg_df[
             (roll_avg_df['station'] == station) & \
@@ -510,21 +342,27 @@ def station_result(station_name, station, target_cols, df_temp_agg, n_years=30, 
 
         combo[roll_avg_col + '_combo'] = combo[roll_avg_col].fillna(combo[roll_avg_col + '_lr'])
 
+        ##################
+        ## assemble result
+        ##################
+
         df_a = combo[['station', 'year', target_col]].copy()
-        df_a['tag'] = 'CTR'
-        df_a
+        df_a['tag'] = '1yr'
 
         df_b = combo[['station', 'year', roll_avg_col + '_combo']].copy()
         df_b = df_b.rename(columns={roll_avg_col + '_combo': target_col})
         df_b['tag'] = 'LR'
-        df_b
 
-        df_c = pd.concat([df_a, df_b])
+        df_c = combo[['station', 'year', roll_avg_col_standard]].copy()
+        df_c = df_c.rename(columns={roll_avg_col_standard: target_col})
+        df_c['tag'] = 'LAG'
+
+        df_d = pd.concat([df_b, df_c])
 
         if df_result is None:
-            df_result = df_c[['station', 'year', 'tag', target_col]]
+            df_result = df_d[['station', 'year', 'tag', target_col]]
         else:
-            df_result = df_result.merge(df_c[['station', 'year', 'tag', target_col]],
+            df_result = df_result.merge(df_d[['station', 'year', 'tag', target_col]],
                                         how='outer',
                                         on=['station', 'year', 'tag'])
 
@@ -532,6 +370,26 @@ def station_result(station_name, station, target_cols, df_temp_agg, n_years=30, 
 
     return df_result_filtered
 
+
+station_dfs = list()
+ctr_yay = 0
+ctr_oops = 0
+
+# for station_name, station in stations.items():
+for i, r in df_station_list.iterrows():
+    station_name = r['name']
+    station = r['station']
+    try:
+        station_dfs.append(station_result(station_name, station, target_cols, df_temp_agg))
+        ctr_yay += 1
+    except:
+        ctr_oops += 1
+        print(f'YAY: {ctr_yay} | OOOPS: {ctr_oops} | {station}')
+        continue
+
+koppen_df = pd.concat(station_dfs)
+
+koppen_df = koppen_df.merge(df_station_list, how='inner', left_on=['station'], right_on=['station'])
 
 def koppen(s):
     # run class B first because Arid climates can intersect with the other types, but we want B to take priority over the temp rules
@@ -629,8 +487,6 @@ def koppen(s):
     elif (s['elevation'] > 1500):
         return 'H'
 
-# df_agg['koppen'] = df_agg.apply(koppen, axis=1)
-
 def koppen_name(s):
     if (s['koppen'] == 'Af'):
         return 'Tropical Rainforest'
@@ -695,49 +551,20 @@ def koppen_name(s):
     elif (s['koppen'] == 'H'):
         return 'Highland'
 
-station_dfs = list()
-ctr_yay = 0
-ctr_oops = 0
-
-# for station_name, station in stations.items():
-for i, r in df_station_list.iterrows():
-    station_name = r['name']
-    station = r['station']
-    try:
-        station_dfs.append(station_result(station_name, station, target_cols, df_temp_agg))
-        ctr_yay += 1
-    except:
-        ctr_oops += 1
-        # print(f'OOOOOS: {ctr_yay} : {ctr_oops} - {station}')
-        continue
-
-koppen_df = pd.concat(station_dfs)
-
-koppen_df.head()
-
-koppen_df = koppen_df.merge(df_station_list, how='inner', left_on=['station'], right_on=['station'])
+print("assigning Köppen classes")
 
 koppen_df['koppen'] = koppen_df.apply(koppen, axis=1)
 
 koppen_df['koppen_name'] = koppen_df.apply(koppen_name, axis=1)
-#
-# df_agg['koppen_name'] = df_agg.apply(koppen_name, axis=1)
-
-print("assigning Köppen classes")
 
 # COMMENT OUT IF ADDING TO EXISTING
 if os.path.exists('data/koppen_class.csv'):
     os.rename('data/koppen_class.csv', 'data/koppen_class_old.csv')
 
-koppen_df.to_csv(df_filename, index=False, quotechar='"', quoting=csv.QUOTE_ALL, header=True)
 print("exporting " + df_filename)
 
-# IF EXISTING
-# df_agg.to_csv(df_filename, index=False, quotechar='"', mode="a", quoting=csv.QUOTE_ALL, header=False)
-
-# check and de-duplicate
-# df_check = pd.read_csv(df_filename)
-# df_check = df_check.drop_duplicates()
-#
-# df_check.to_csv(df_filename, index=False, quotechar='"', quoting=csv.QUOTE_ALL, header=True)
-# print("exporting " + df_filename)
+koppen_df.to_csv(df_filename,
+                 header=True,
+                 index=False,
+                 quotechar='"',
+                 quoting=csv.QUOTE_ALL)

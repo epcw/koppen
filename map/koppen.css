@@ -354,8 +354,18 @@ font-size:smaller;
 .spacer {
 height:2em;
 }
-#user_choice {
+#user_inputs {
   display:flex;
+  max-width:600px;
+  margin:0 auto;
+}
+.description {
+max-width:1000px;
+  margin:15px auto;
+}
+.user_choice {
+margin:0 auto;
+width:40%;
 }
 #timescale ul {
   display:flex;

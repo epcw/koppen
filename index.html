@@ -157,22 +157,22 @@
 <div id="content">
     <div class="spacer"></div>
     <h1 id="title" align="center">Mapping changing climate in the US West</h1>
-    <p align="center">Draft infographic looking at the changing climate of the US West over time as visualized by Köppen climate classes, suggesting the use of a linear model to more accurately define current climate conditions than the extant method based on 30-year center-weighted averages, which produces a 15-year lag.</p>
-    <p align="center" class="notes">Add narrative analysis</p>
+    <p align="center" class="description">Draft infographic looking at the changing climate of the US West over time as visualized by Köppen climate classes, suggesting the use of a linear extrapolation to more accurately define current climate conditions than the extant method based on 30-year simple averages, which produces a 15-year lag.</p>
+    <p align="center" class="notes">TODO: Add narrative analysis</p>
     <div class="spacer"></div>
     <div id="user_inputs">
-    <div id="slider" style="width:90%;" class="user_choice">
+    <div id="slider" class="user_choice">
     <label for="nVel">
 <!--      Years in climate calculation = <span id="year-value">30</span>-->
 <!--      <input style="width: 200px;" type="range" min="5" max="30" id="year" value="30" step='5'>-->
-      Year = <span id="year-value">2020</span>
-      <input style="width: 200px;" type="range" min="1950" max="2021" id="year" value="2020" step='1'>
+      Year = <span id="year-value">2021</span>
+      <input style="width: 200px;" type="range" min="1950" max="2021" id="year" value="2021" step='1'>
     </label>
     </div>
     <div id="weighting" class="user_choice">
          <h4 align="center">Weighting: <select id="weight" input="dropdown">
-             <option value="LR">Linear Regression</option>
-            <option value="YR">Yearly</option>
+             <option value="LR">Linear Extrapolation</option>
+            <option value="LAG">30-year simple average</option>
          </select></h4>
     </div>
     <div class="spacer"></div>
