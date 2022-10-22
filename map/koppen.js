@@ -7,14 +7,12 @@ const urls = {
 //  stations:
 //    "https://gist.githubusercontent.com/mbostock/7608400/raw/e5974d9bba45bc9ab272d98dd7427567aafd55bc/stations.csv",
   stations:
-    // "/koppen/map/stations_pilot.csv",
     "/koppen/map/stations_weighted.csv",
 
   // source: https://gist.github.com/mbostock/7608400
 //  edges:
 //  "https://gist.githubusercontent.com/mbostock/7608400/raw/e5974d9bba45bc9ab272d98dd7427567aafd55bc/flights.csv"
     edges:
-    // "/koppen/map/edges_pilot.csv"
     "/koppen/map/edges_weighted.csv"
 };
 

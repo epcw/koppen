@@ -18,12 +18,15 @@ Order of scripts:
    - root folder:
      - index.html
    - /map:
-     - edges.csv
+     - edges_weighted.csv
      - jquery.3.5.1.min.js
      - koppen.css
      - koppen.js
      - states-albers-10m.json
-     - stations.csv
+     - stations_weighted.csv
+   - /data:
+     - koppen_class.csv
+     - station_data.csv
 
 **Important Note** - For any medium-to-large scripts, you'll need to run steps 2-5 multiple times.  For every time after the first, you will need to comment out the noted areas in NOAA_data_pull.py & koppen.py so that the scripts add to the existing data files (data/station_data.csv & data/koppen_data.csv) rather than overwrite them. 
 
@@ -40,7 +43,7 @@ Richard W. Sharp\
 Patrick W. Zimmerman
 
 #### Codebase
-**Data prep**: Python 3.8\
+**Data prep**: Python 3.10\
 **Webpage**: HTML & CSS\
 **Visualization**: d3.v5, with jQuery 3.5.1 to selectively color
 
@@ -49,7 +52,8 @@ csv\
 json\
 os\
 pandas\
-requests
+requests\
+scipy
 
 #### Other requirements
 Webserver
