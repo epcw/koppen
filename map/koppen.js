@@ -39,10 +39,10 @@ const scales = {
 
 // have these already created for easier drawing
 const g = {
-  basemap:  svg.select("g#basemap"),
-  edges:  svg.select("g#edges"),
-  stations: svg.select("g#stations"),
-  voronoi:  svg.select("g#voronoi")
+    basemap:  svg.select("g#basemap"),
+    edges:  svg.select("g#edges"),
+    stations: svg.select("g#stations"),
+    voronoi:  svg.select("g#voronoi")
 };
 
 console.assert(g.basemap.size()  === 1);
@@ -56,6 +56,7 @@ const tooltipdetail = d3.select("text#tooltipdetail");
 console.assert(tooltipdetail.size() === 1);
 const tooltipcode = d3.select("text#tooltipcode");
 console.assert(tooltipcode.size() === 1);
+
 
 //pzed create base year
 //var minyear = d3.min(stations.year, function (d) { return d.val; });
@@ -229,7 +230,7 @@ function drawStations(stations) {
     .data(stations, d => d.noaa)
     .enter()
     .append("circle")
-    .attr("r", "4")
+    .attr("r", "6")
 //    .attr("r",  d => scales.stations(d.outgoing) * -1/4 + 7 ) // pzed this changes the size of the circles.
     .attr("cx", d => d.x) // calculated on load
     .attr("cy", d => d.y) // calculated on load
