@@ -391,7 +391,8 @@
     <div class="spacer"></div>
     <!-- must be 960x600 to match topojson us atlas files -->
     <div id="map_container">
-    <svg id="map" width="50%" height="500px" style="max-width:960px;">
+      <div id="mapdiv" width="33%" height="500px" style="max-width:960px;">      <h3>Climate classes in the US West</h3>
+        <svg id="map" width="450px" height="500px" style="max-width:960px;">
       <!-- must be in this order for drawing -->
       <g id="basemap"></g>
       <g id="edges"></g>
@@ -400,8 +401,9 @@
       <text id="tooltipcode" style="display: none;"></text>
       <text id="tooltip" style="display: none;"></text>
       <text id="tooltipdetail" style="display: none;"></text>
-    </svg>
-      <div id="lake_mead" width="50%" height="500px" style="max-width:960px;"></div>
+    </svg></div>
+      <div id="lake_mead" width="67%" height="500px" style="max-width:960px;">      <h3>Yearly mean height of water in Lake Mead, measured at Hoover Dam</h3>
+</div>
   </div>
     <div id="legend">
       <table id="koppen-defs">
