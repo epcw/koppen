@@ -63,7 +63,7 @@ console.assert(tooltipcode.size() === 1);
 //var maxyear = d3.max(stations.year, function (d) { return d.val; });
 //var year = 1982;
 //var years_averaged = 30;
-var year = 2020;
+var year = 2021;
 var tag = 'LR';
 
 // load and draw base map

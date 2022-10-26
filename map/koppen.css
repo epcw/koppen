@@ -38,10 +38,15 @@ body {
   stroke-width:0.3;
 }
 
-#map {
+#map,#lake_mead {
 max-height:600px;
 }
+@media only screen and (max-width:1500){
 
+#map,#lake_mead {
+margin:0 auto;
+}
+}
 #raw {
     width:90%;
     max-width: 864px;
@@ -358,6 +363,12 @@ height:2em;
   display:flex;
   max-width:600px;
   margin:0 auto;
+}
+@media only screen and (min-width:1501px) {
+#map_container {
+    margin-bottom: 30px;
+    display:flex;
+    }
 }
 .description {
 max-width:1000px;

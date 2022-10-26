@@ -391,7 +391,7 @@
     <div class="spacer"></div>
     <!-- must be 960x600 to match topojson us atlas files -->
     <div id="map_container">
-    <svg id="map" width="90%" height="90%" style="max-width:960px;">
+    <svg id="map" width="50%" height="500px" style="max-width:960px;">
       <!-- must be in this order for drawing -->
       <g id="basemap"></g>
       <g id="edges"></g>
@@ -401,6 +401,7 @@
       <text id="tooltip" style="display: none;"></text>
       <text id="tooltipdetail" style="display: none;"></text>
     </svg>
+      <div id="lake_mead" width="50%" height="500px" style="max-width:960px;"></div>
   </div>
     <div id="legend">
       <table id="koppen-defs">
@@ -546,7 +547,7 @@
   </div>
 
   <script type="text/javascript" src="/koppen/map/koppen.js"></script>
-  <!--<script type="text/javascript" src="/koppen/map/color-stations.js"></script>-->
+  <script type="text/javascript" src="/koppen/map/lake_mead.js"></script>
 
   <a name="footer"></a>
 
