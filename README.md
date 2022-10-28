@@ -14,19 +14,24 @@ Order of scripts:
    - Assigns a koppen classification to each station in the above list for each year of data.
 4. _data-prep.py_
    - Takes koppen_data.csv and creates map-readable station and edges files.
-5. _upload files to server_
-   - root folder:
+5. _lake_mead.py_
+   - Takes data from data/lake_mead.csv and formats / filters it.  Output: map/lake_mead_metric.csv
+6. _upload files to server_
+   - /
      - index.html
    - /map:
      - edges_weighted.csv
      - jquery.3.5.1.min.js
      - koppen.css
      - koppen.js
+     - lake_mead_metric.csv
+     - lake_mead.js
      - states-albers-10m.json
      - stations_weighted.csv
    - /data:
      - koppen_class.csv
      - station_data.csv
+     - lake_mead.csv
 
 **Important Note** - For any medium-to-large scripts, you'll need to run steps 2-5 multiple times.  For every time after the first, you will need to comment out the noted areas in NOAA_data_pull.py & koppen.py so that the scripts add to the existing data files (data/station_data.csv & data/koppen_data.csv) rather than overwrite them. 
 
