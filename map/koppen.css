@@ -1,4 +1,21 @@
 /*d3 INFOGRAPHIC styling*/
+.overlay {
+fill: none;
+}
+.focus circle.outer_circle {
+fill:none;
+}
+.focus text {
+font-wize:14px;
+}
+.tooltip {
+fill:white;
+stroke:#bb0000;
+opacity:0.9;
+}
+.tooltip-year, .tooltip-depth {
+font-weight: 600;
+}
 body {
   background-color: white;
   text-align: center;
