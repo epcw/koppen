@@ -37,7 +37,34 @@ var svg_line = d3.select("#lake_mead").append("svg")
           "translate(" + margin_line.left + "," + margin_line.top + ")");
 
 // Get the data
-d3.csv("/koppen/map/lake_mead_metric.csv").then(function(data) {
+const dataset = d3.csv("/koppen/map/lake_mead_metric.csv");
+dataset.then(function(data) {
+    const slices = data.columns.slice(1).map(function(id) {
+        return {
+            id: id,
+            values: data.map(function(d){
+                return {
+                    Year: d.Year,
+                    depth: +d[id]
+                };
+            })
+        };
+    });
+//
+console.log("Column headers", data.columns);
+console.log("Column headers without Year", data.columns.slice(1));
+// returns the sliced dataset
+console.log("Slices",slices);
+// returns the first slice
+console.log("First slice",slices[0]);
+// returns the array in the first slice
+console.log("mean array",slices[0].values);
+// returns the date of the first row in the first slice
+console.log("Year 1",slices[0].values[0].Year);
+// returns the array's length
+console.log("Array length",(slices[0].values).length);
+
+//d3.csv("/koppen/map/lake_mead_metric.csv").then(function(data) {
 
 //  // format the year column
 //  data.forEach(function(d) {
@@ -51,14 +78,81 @@ d3.csv("/koppen/map/lake_mead_metric.csv").then(function(data) {
   y.domain(d3.extent(data, function(d) { return d.mean; }))
   .range([height_line, 0]);
 
-  // Add the valueline path.
-  svg_line.append("path")
-      .data([data])
-      .attr("class", "line")
-      .attr("fill", "none")
-      .attr("stroke", "#660066")
-      .attr("stroke-width", 1.5)
-      .attr("d", valueline);
+const line = d3.line()
+    .x(function(d) { return x(d.Year); })
+    .y(function(d) { return y(d.depth); })
+    .defined(function (d) { return d.depth !== 0; });
+
+//let id = 0;
+//const ids = function () {
+//    return "line-"+id++;
+//}
+
+const lines = svg_line.selectAll("lines")
+    .data(slices)
+    .enter()
+    .append("g");
+
+    lines.append("path")
+    .attr("class", function (d) { return "line " + d.id  })
+    .attr("fill", "none")
+    .attr("stroke", "#660066")
+    .attr("stroke-width", 1.5)
+    .attr("d", function(d) { return line(d.values); });
+
+var human_readable = function(d){
+if (d.id == "cnt_ma") {
+d.human = "30yr Centered Avg"}
+if (d.id == "std_ma") {
+d.human = "30yr Lagging Avg"}
+if (d.id == "mean") {
+d.human = "Yearly mean"}
+return d.human
+}
+
+var label_color = function(d){
+if (d.id == "cnt_ma") {
+d.color = "#ffd140"}
+if (d.id == "std_ma") {
+d.color = "#bb0000"}
+if (d.id == "mean") {
+d.color = "#660066"}
+return d.color
+}
+
+var label_position = function(d){
+if (d.id == "cnt_ma") {
+d.pos = 190}
+if (d.id == "std_ma") {
+d.pos = 60}
+if (d.id == "mean") {
+d.pos = 350}
+return d.pos
+}
+lines.append("text")
+    .attr("class","line_label")
+//    .datum(function(d) {
+//        return {
+//            id: d.id,
+//            value: d.values[d.values.length - 1]}; })
+
+//    .attr("transform", function(d) {
+//            return "translate(" + (x(d.value.Year) + 10)
+//            + "," + (y(d.value.depth) + 5 ) + ")";})
+    .attr("x", 500)
+    .attr("y", function(d) { return label_position(d);})
+    .attr("fill", function(d) { return label_color(d);})
+    .text(function(d) { return human_readable(d); });
+
+//
+//  // Add the valueline path.
+//  svg_line.append("path")
+//      .data([data])
+//      .attr("class", "line")
+//      .attr("fill", "none")
+//      .attr("stroke", "#660066")
+//      .attr("stroke-width", 1.5)
+//      .attr("d", valueline);
 
   // Add the x Axis
   svg_line.append("g")

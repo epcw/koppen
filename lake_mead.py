@@ -24,12 +24,6 @@ df.reset_index()
 # only take period after Lake Mead filled up for plotting
 df_full = df[(df['Year'] >= 1950)]
 
-# # line plot
-# sns.lineplot(data=df_full, x='Year', y='mean').set(title="Yearly Mean water level of Lake Mead at Hoover Dam")
-#
-# # trendline
-# sns.regplot(data=df_full, x='Year', y='mean')
-
 # dump to csv
 df_full.to_csv('map/lake_mead_metric.csv',header=True,index=False)
 

@@ -83,6 +83,17 @@ font-size:small;
 font-color:#660066;
 }
 
+.std_ma {
+stroke: #bb0000;
+stroke-dasharray: 2;
+stroke-weight:1;
+}
+.cnt_ma {
+stroke: #ffd140;
+stroke-dasharray:4;
+stroke-weight:1;
+}
+
 #legend {
 width:90%;
 max-width:864px;
