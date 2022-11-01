@@ -83,15 +83,15 @@ font-size:small;
 font-color:#660066;
 }
 
-.std_ma {
+.line.std_ma {
 stroke: #bb0000;
 stroke-dasharray: 2;
-stroke-weight:1;
+stroke-width:5;
 }
-.cnt_ma {
+.line.cnt_ma {
 stroke: #ffd140;
 stroke-dasharray:4;
-stroke-weight:1;
+stroke-width:5;
 }
 
 #legend {

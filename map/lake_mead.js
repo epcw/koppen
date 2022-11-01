@@ -122,7 +122,7 @@ return d.color
 
 var label_position = function(d){
 if (d.id == "cnt_ma") {
-d.pos = 190}
+d.pos = 180}
 if (d.id == "std_ma") {
 d.pos = 60}
 if (d.id == "mean") {
@@ -130,7 +130,7 @@ d.pos = 350}
 return d.pos
 }
 lines.append("text")
-    .attr("class","line_label")
+      .attr("class", function (d) { return "line_label " + d.id  })
 //    .datum(function(d) {
 //        return {
 //            id: d.id,
@@ -142,6 +142,7 @@ lines.append("text")
     .attr("x", 500)
     .attr("y", function(d) { return label_position(d);})
     .attr("fill", function(d) { return label_color(d);})
+    .attr("style", "text-shadow: 1px 1px #8d8d8d;")
     .text(function(d) { return human_readable(d); });
 
 //
@@ -183,7 +184,7 @@ lines.append("text")
 
   //annotation
   var focus = svg_line.append("g")
-            .attr("class", "focus");
+        .attr("class", "focus");
 
     // outer circle
     focus.append("circle")
@@ -249,6 +250,12 @@ lines.append("text")
             focus.select(".tooltip-year").text(d.Year);
             focus.select(".tooltip-depth").text(rounded(d.mean));
 
+    // set starting weight line highlight
+    d3.selectAll(".cnt_ma")
+            .attr('opacity','1');
+    d3.selectAll(".std_ma")
+            .attr('opacity','0.2');
+
     // update the highlight
         function update(selectedYear) {
             var x0 = selectedYear,
@@ -261,6 +268,22 @@ lines.append("text")
             focus.select(".tooltip-depth").text(rounded(d.mean));
         }
 
+    // update the weighting line
+        function updateWeight(selectedWeight) {
+            if (selectedWeight == 'LAG') {
+            d3.selectAll(".cnt_ma")
+            .attr('opacity','0.6');
+            d3.selectAll(".std_ma")
+            .attr('opacity','1');
+            }
+            if (selectedWeight == 'LR') {
+            d3.selectAll(".cnt_ma")
+            .attr('opacity','1');
+            d3.selectAll(".std_ma")
+            .attr('opacity','0.2');
+            }
+            }
+
     // event listener for year slider
          d3.select("#year").on("change", function(d) {
            // recover the option that has been chosen
@@ -269,4 +292,11 @@ lines.append("text")
            update(selectedYear);
        });
 
+    // event listener for weighting slider
+         d3.select("#weight").on("change", function(d) {
+           // recover the option that has been chosen
+           var selectedWeight = d3.select(this).property("value")
+           // run the updateChart function with this selected option
+           updateWeight(selectedWeight);
+       });
 });
