@@ -51,18 +51,18 @@ dataset.then(function(data) {
         };
     });
 //
-console.log("Column headers", data.columns);
-console.log("Column headers without Year", data.columns.slice(1));
-// returns the sliced dataset
-console.log("Slices",slices);
-// returns the first slice
-console.log("First slice",slices[0]);
-// returns the array in the first slice
-console.log("mean array",slices[0].values);
-// returns the date of the first row in the first slice
-console.log("Year 1",slices[0].values[0].Year);
-// returns the array's length
-console.log("Array length",(slices[0].values).length);
+//console.log("Column headers", data.columns);
+//console.log("Column headers without Year", data.columns.slice(1));
+//// returns the sliced dataset
+//console.log("Slices",slices);
+//// returns the first slice
+//console.log("First slice",slices[0]);
+//// returns the array in the first slice
+//console.log("mean array",slices[0].values);
+//// returns the date of the first row in the first slice
+//console.log("Year 1",slices[0].values[0].Year);
+//// returns the array's length
+//console.log("Array length",(slices[0].values).length);
 
 //d3.csv("/koppen/map/lake_mead_metric.csv").then(function(data) {
 

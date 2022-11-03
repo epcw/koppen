@@ -83,33 +83,21 @@ Promise.all(promises).then(processData);
 
 d3.select("#year").on("input", function () {
     year = this.value;
+//    console.log("year value", year);
     d3.select('#year-value').text(year);
-//    d3.select('#year').attr("min", minyear);
-//    d3.select('#year').attr("max", maxyear);
     g.stations.selectAll('circle').remove();
     g.voronoi.selectAll('path').remove();
-
     Promise.all(promises).then(processData);
-//
-//     g.stations.selectAll('circle').each(function(d) {
-//         drawStations(g.stations);
-//       });
   });
 
-d3.select("#weight").on("change", function () {
+d3.select("#weight").on("input", function () {
     tag = this.value;
-       // var selectedGroup = d3.select(this).property("value")
-           // run the updateChart function with this selected option
+//    console.log("weight value", tag);
     g.stations.selectAll('circle').remove();
     g.voronoi.selectAll('path').remove();
-    // var dataFilter = data.filter(function(d){ return d.tag == selectedGroup })
 
     Promise.all(promises).then(processData);
 
-
-    // g.stations.selectAll('circle').each(function(d) {
-    //     drawStations(g.stations);
-    //   });
   });
 // process station and  data
 function processData(values) {
