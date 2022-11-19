@@ -8,6 +8,9 @@ fill:none;
 .focus text {
 font-wize:14px;
 }
+a {
+font-weight:600;
+}
 .tooltip {
 fill:white;
 stroke:#bb0000;
@@ -21,13 +24,19 @@ body {
   text-align: center;
   font-family: sans-serif;
 }
+#notes {
+    width: 90%;
+    max-width: 864px;
+    margin: 10 auto;
+    text-align: left;
+    }
 
-#raw a {
+#raw a, #notes a {
   color:#9d009d!important;
   font-weight: 700;
 }
 
-#raw a:active, #raw a:hover, #raw a:focus {
+#raw a:active, #raw a:hover, #raw a:focus, #notes a:active, #notes a:hover, #notes a:focus {
   color:#ffd140!important;
 }
 
@@ -99,8 +108,22 @@ width:90%;
 max-width:864px;
 margin-left:auto;
 margin-right:auto;
-  margin-top:-30px;
+margin-top:20px;
 }
+#title {
+font-weight:500;
+font-size:32px;
+color:#660066;
+}
+h2 {
+font-weight: 500;
+    color: #660066;
+    font-size: 28px;
+    }
+hr.section {
+width: 40%;
+border-top: 1px solid #ffd140;
+    }
 
 #legend td, #legend tbody, #legend tr {
 border: 1px solid #e5e5e5;
@@ -402,6 +425,16 @@ height:2em;
 .description {
 max-width:1000px;
   margin:15px auto;
+}
+.notes {
+max-width:1000px;
+margin-left:auto;
+margin-right:auto;
+}
+.narrative {
+max-width:1000px;
+text-align: justify;
+margin: 20 auto;
 }
 .user_choice {
 margin:0 auto;

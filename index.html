@@ -180,27 +180,7 @@
       background-image: none !important
     }
   </style>
-  <style type="text/css" media="print">
-    #wpadminbar {
-      display: none
-    }
-  </style>
-  <style type="text/css" media="screen">
-    html {
-      margin-top: 32px !important
-    }
-    * html body {
-      margin-top: 32px !important
-    }
-    @media screen and (max-width:782px) {
-      html {
-        margin-top: 46px !important
-      }
-      * html body {
-        margin-top: 46px !important
-      }
-    }
-  </style>
+
   <meta name="generator" content="Powered by Slider Revolution 6.1.5 - responsive, Mobile-Friendly Slider Plugin for WordPress with comfortable drag and drop interface." />
   <link rel="icon" href="https://equitableworld.org/wp-content/uploads/2020/06/cropped-favicon-32x32.png" sizes="32x32" />
   <link rel="icon" href="https://equitableworld.org/wp-content/uploads/2020/06/cropped-favicon-192x192.png" sizes="192x192" />
@@ -370,11 +350,18 @@
 
   <div id="content">
     <div class="spacer"></div>
-    <h1 id="title" align="center">Mapping changing climate in the US West</h1>
-    <p align="center" class="description">Draft infographic looking at the changing climate of the US West over time as visualized by Köppen climate classes, suggesting the use of a linear extrapolation to more accurately define current climate
-      conditions than the extant method based on 30-year simple averages, which produces a 15-year lag.</p>
-    <p align="center" class="notes">TODO: Add narrative analysis</p>
+    <h1 id="title" align="center">Mapping changing climate in the US West: the problem with Normal</h1>    <div class="spacer"></div>
+
+    <h2 class="narrative" align="left">Abstract</h2>
+    <p align="left" class="description">Infographic looking at the changing climate of the US West over time as visualized by Köppen climate classes, arguing for the use of centered moving average with linear extrapolation to more accurately define current climate conditions than the extant method based on 30-year simple averages, which produces a 15-year lag.</p>
+  <hr class="section">
+    <h2 class="narrative" align="left">Introduction: Normal is a dangerous concept.</h2>
+    <p class="narrative">In a changing environment, the concept of normality strongly sets expectations for the future and, therefore, influences plans for resource use, infrastructure development and maintenance, and day-to-day-life. Normal is often defined, both by urban and regional planning commissions, as a simple average.  Cities typically create 20-year plans,<sup id="note1"><a href="#fn1">1</a></sup> state water boards use 30-year average rainfall as a baseline (as does the USGS).<sup id="note2"><a href="#fn2">2</a></sup>  Simple averages are fine in a stable equilibrium, but an overwhelming preponderance of evidence leaves no doubt that the Earth is <b><i>not</i></b> in equilibrium,<sup id="note3"><a href="#fn3">3</a></sup> and simple averages create expectations problematically out of date.</p>
+    <p class="narrative">Climate scientists have done considerable work in order to standardize the way "normal" is computed.<sup id="note4"><a href="#fn4">4</a></sup> The methodical approach is critical for science, but can be difficult to understand. It was designed to meet the needs of rigorous research, but can cause misunderstanding when condensed down to a headline.</p>
+    <p class="narrative">So we need a <i>new</i> way to measure Normal, one focused on estimating what our expected climate should be like <i>this year</i>, not 15 years ago: Centered moving averages.</p>  <hr class="section">
+
     <div class="spacer"></div>
+    <p class="notes" align="left">Adjust the slider to adjust the year of the climate map and the highlight on the Lake Mead water level graph.  Adjust the weighting to toggle between a simple and centered average to see the different climate expectations between the two (and compare the expected climate or water level with the observed record).</p>
     <div id="user_inputs">
       <div id="slider" class="user_choice">
         <label for="nVel">Year = <span id="year-value">2021</span>
@@ -406,6 +393,22 @@
       <div id="lake_mead" width="67%" height="500px" style="max-width:960px;">      <h3>Yearly mean depth in Lake Mead</h3>
 </div>
   </div>
+    <div class="spacer"></div>
+    <h2 class="narrative" align="left">Climate definitions assume an unchanging (or slowly changing) climate</h2>
+    <p class="narrative">Köppen-Geiger climate classes<sup id="note5"><a href="#fn5">5</a></sup> (see <a href="#legend">legend below</a>) are an oft-used method of categorizing climate.  You know, those <a href="https://www.weather.gov/jetstream/climate_max">maps with all the colored zones</a> saying "Mediterranean Warm Summer," "Humid subtropical," or "Oceanic."  Built on rainfall and temperature data for a given area, Köppen classes use 30 year averages for the same reason that water districts do: the year-to-year variance for temperature and precipitation is incredibly noisy, and the average serves to smooth that out and create a baseline expectation.  This makes sense; while a decade will often see one or two traces of snow in, say, the San Francisco Bay Area, it is not particularly likely in any given year (or even 5-year period).<sup id="note6"><a href="#fn6">6</a></sup></p>
+    <p class="narrative">However, simple averages in climate class calculations suffer from the same problem as measures of "% of normal precipitation": they are lagging measures that tell you, more or less, what the climate was like 15 years ago, not what it's likely to be today.</p>
+    <hr class="section">
+    <h2 class="narrative" align="left">When science goes public, clarity is critical, but simplifications can be misleading</h2>
+    <p class="narrative">When scientists present their findings to the public they must find concepts that can be intuitively understood without specialized education, but simplification can be deceiving. The 100-year flood is a great example: intuitively we know that a 100-year flood (an event that has a 1% chance of occurring in a given year) is more common than a 1000-year flood, but did you know that the chance of experiencing a 100-year flood by the time you are 100 years old is…<i>drumroll</i>…63%?<sup id="note7"><a href="#fn7">7</a></sup>  That’s right, about ⅓ of the time there will not be a 100-year flood during the next 100 years. Of course, there could also be more than one: the chance that you experience 2 or more such floods in the next 100 years is about 26%.<sup id="note8"><a href="#fn8">8</a></sup> (Editor's note: math is weird)</p>
+     <p class="narrative">When it comes to communicating climate change, we are often presented with statements like this one: "<a href="https://abcnews.go.com/US/bodies-water-north-america-drying-due-drought-climate/story?id=91737496" target="_blank">In addition, more than 60% of monitored groundwater wells in California are below normal conditions…</a>"  The pressing issue is clear: water levels are dropping, but our attention goes to the big change and we often don’t question what "normal conditions" are. We also forget that "normal" conditions are dynamic. For example, the water level in Lake Mead has fallen so far, so consistently, for so long that <a href="https://xkcd.com/2400/" target="_blank">we can confidently say</a> Normal isn’t what it used to be.</p>
+     <p class="narrative">In many cases the definition of normal is a simple 30-year moving average,<sup id="note9"><a href="#fn9">9</a></sup> and the big problem there is that simple moving averages lag the data: they’re old news. A simple moving average is a low-pass filter, a method designed to filter out high-frequency noise and reveal the underlying low-frequency signal. However, it most accurately estimates the value of that signal in the middle of the window over which it is average. In a 30-year moving average with a window that includes the 30 years leading up to today, this means it’s most accurately an estimate of the value from 15 years ago.</p>
+     <p class="narrative">There are many ways to improve the performance of a moving average, for example, giving more weight to recent data and less weight to older values. Another straightforward approach is to use a centered moving average, which centers the data window about the moment where the estimate is to take place. To estimate the value of average annual temperature in Seattle in 1975, use the annual temperature data between 1960 and 1990.</p>
+     <p class="narrative">Of course, we run into trouble when this window extends into the future. If we wanted to figure out the current value we only have the last 15 years worth of data, not the next. However, given sufficient historical data we can extrapolate the trend. Here we use linear extrapolation, a simple straight-line fit of recent data projected out into the future to fill in the missing centered moving average values.</p>
+     <p class="narrative">You could certainly use a more sophisticated method than a centered moving average with linear extrapolation, but we choose these here because of their simplicity. They already provide a more accurate estimate of the current underlying value of these trends. The selection of more complex models should be informed by climate science, which is beyond the scope of this demonstration.</p>
+   <!-- <p class="narrative"><span class="notes"><ul class="narrative notes"><li><a href="https://www.gfdrr.org/en/100-year-flood" target="_blank">100 year flood calculator / demo</a> </li><li><a href="https://en.wikipedia.org/wiki/100-year_flood" target="_blank">Standard reference for 100 year flood</a></li></ul></span></p>-->
+    <div class="spacer"></div>
+  <hr class="section">
+          <h2 align="center">Climate class legend</h2>
     <div id="legend">
       <table id="koppen-defs">
         <tbody>
@@ -536,11 +539,26 @@
         </tbody>
       </table>
     </div>
+        <div class="spacer"></div>
+
+    <div id="notes">
+      <hr class="section">
+      <h2 id="fn1" align="center">Notes</h2>
+<p><span style="font-size: small;"><sup><a href="#note1">1</a></sup>&nbsp; Such as <a href="https://www.seattle.gov/opcd/ongoing-initiatives/seattle-2035-comprehensive-plan" target="_blank">Seattle</a> and <a href="https://www.portland.gov/bps/planning/comp-plan" target="_blank">Portland</a></span><a href="#note1">&uarr;</a><br>
+<span id="fn2" style="font-size: small;"><sup><a href="#note2">2</a></sup>&nbsp; Rainfall totals are represented as % of normal with reference to 30-year averages by the <a href="https://ecology.wa.gov/Water-Shorelines/Water-supply/Water-availability/Statewide-conditions" target="_blank">Washington State Department of Ecology</a>, the <a href="https://water.ca.gov/Current-Conditions" target="_blank">California Department of Water Resources</a>, and the USGS-run <a href="https://or.water.usgs.gov/data_dir/war_dir/" target="_blank">Oregon Water Science Center</a>.</span><a href="#note2">&uarr;</a><br>
+<span id="fn3" style="font-size: small;"><sup><a href="#note3">3</a></sup>&nbsp; Evidence such as <a href="https://gml.noaa.gov/ccgg/trends/" target="_blank">Atmospheric CO<sub>2</sub></a>, <a href="https://www.climate.gov/media/12885" target="_blank">Sea Surface Temperature</a>, and <a href="https://climate.nasa.gov/vital-signs/sea-level/" target="_blank">Global Sea Level Rise</a> are some of the more prominent factors behind the IPCC's <a href="https://www.ipcc.ch/report/ar6/wg2/" target="_blank">pessimistic forecast for the 21<sup>st</sup> century</a>.</span><a href="#note3">&uarr;</a><br>
+<span id="fn4" style="font-size: small;"><sup><a href="#note4">4</a></sup>&nbsp; The <a href="https://www.ncei.noaa.gov/products/land-based-station/us-climate-normals" target="_blank">NOAA</a> <a href="https://library.wmo.int/doc_num.php?explnum_id=4166" target="_blank">guidelines</a> are <a href="https://www.ncei.noaa.gov/data/normals-annualseasonal/1991-2020/doc/Normals_Calculation_Methodology_2020.pdf" target="_blank">extensive</a></span><a href="#note4">&uarr;</a><br>
+<span id="fn5" style="font-size: small;"><sup><a href="#note5">5</a></sup>&nbsp; Köppen definitions derived from Beck, H., Zimmermann, N., McVicar, T. et al. "Present and future Köppen-Geiger climate classification maps at 1-km resolution." Scientific Data 5, 180214 (2018). <a href="https://doi.org/10.1038/sdata.2018.214" target="_blank">https://doi.org/10.1038/sdata.2018.214</a></span><a href="#note5">&uarr;</a><br>
+<span id="fn6" style="font-size: small;"><sup><a href="#note6">6</a></sup>&nbsp; As more evidence of a changing climate, it was a semi-regular occurrence on the higher hills and mountains of the Coast Range within the lifetime of most adults.</span><a href="#note6">&uarr;</a><br>
+<span id="fn7" style="font-size: small;"><sup><a href="#note7">7</a></sup>&nbsp; Yup, just work out the probability of NOT experiencing one: 1 - 0.99<sup>100</sup></span><a href="#note7">&uarr;</a><br>
+<span id="fn8" style="font-size: small;"><sup><a href="#note8">8</a></sup>&nbsp; (1 - P(0)) - P(exactly 1) = (1 - 0.99<sup>100</sup>) - 0.01 * (0.99<sup>100</sup>) * comb(100,1) = 0.63397 - 0.36973 = 0.26424</span><a href="#note8">&uarr;</a><br>
+<span id="fn9" style="font-size: small;"><sup><a href="#note9">9</a></sup>&nbsp; <a href="https://en.wikipedia.org/wiki/Moving_average#Simple_moving_average" target="_blank">Wikipedia</a> gives a good description.</span><a href="#note9">&uarr;</a>
+</p>
+    </div>
     <div id="raw">
+<hr class="section">
       <h2 align="center">Data</h2>
       <p>Datasource: National Oceanographic and Atmospheric Administration <a href="https://www.ncdc.noaa.gov/cdo-web/webservices/v2" target="_blank">Climate Data Online API.</a></p>
-      <p>Köppen definitions derived from Beck, H., Zimmermann, N., McVicar, T. et al. "Present and future Köppen-Geiger climate classification maps at 1-km resolution." Scientific Data 5, 180214 (2018). <a href="https://doi.org/10.1038/sdata.2018.214"
-          target="_blank">https://doi.org/10.1038/sdata.2018.214</a></p>
       <p>Source code available on <a href="https://github.com/epcw/koppen" target="_blank">GitHub</a></p>
       <p><a href="/koppen/data/station_data.csv">Click here</a> to download raw data (monthly avg temp & precip totals for every station) as a csv.</p>
       <p><a href="/koppen/data/koppen_class.csv">Click here</a> to download Köppen class data (yearly class for every station) as a csv.</p>
@@ -746,116 +764,7 @@
       b[c] += (window.postMessage && request ? ' ' : ' no-') + cs;
     }());
   </script>
-  <div id="wpadminbar" class="nojq nojs">
-    <a class="screen-reader-shortcut" href="#wp-toolbar" tabindex="1">Skip to toolbar</a>
-    <div class="quicklinks" id="wp-toolbar" role="navigation" aria-label="Toolbar">
-      <ul id='wp-admin-bar-root-default' class="ab-top-menu">
-        <li id='wp-admin-bar-wp-logo' class="menupop"><a class='ab-item' aria-haspopup="true" href='https://equitableworld.org/wp-admin/about.php'><span class="ab-icon" aria-hidden="true"></span><span class="screen-reader-text">About WordPress</span></a>
-          <div class="ab-sub-wrapper">
-            <ul id='wp-admin-bar-wp-logo-default' class="ab-submenu">
-              <li id='wp-admin-bar-about'><a class='ab-item' href='https://equitableworld.org/wp-admin/about.php'>About WordPress</a></li>
-            </ul>
-            <ul id='wp-admin-bar-wp-logo-external' class="ab-sub-secondary ab-submenu">
-              <li id='wp-admin-bar-wporg'><a class='ab-item' href='https://wordpress.org/'>WordPress.org</a></li>
-              <li id='wp-admin-bar-documentation'><a class='ab-item' href='https://wordpress.org/support/'>Documentation</a></li>
-              <li id='wp-admin-bar-support-forums'><a class='ab-item' href='https://wordpress.org/support/forums/'>Support</a></li>
-              <li id='wp-admin-bar-feedback'><a class='ab-item' href='https://wordpress.org/support/forum/requests-and-feedback'>Feedback</a></li>
-            </ul>
-          </div>
-        </li>
-        <li id='wp-admin-bar-site-name' class="menupop"><a class='ab-item' aria-haspopup="true" href='https://equitableworld.org/wp-admin/'>Center for Equitable Policy in a Changin&hellip;</a>
-          <div class="ab-sub-wrapper">
-            <ul id='wp-admin-bar-site-name-default' class="ab-submenu">
-              <li id='wp-admin-bar-dashboard'><a class='ab-item' href='https://equitableworld.org/wp-admin/'>Dashboard</a></li>
-              <li id='wp-admin-bar-simple-history-view-history' class="ab-item--simplehistory"><a class='ab-item' href='https://equitableworld.org/wp-admin/index.php?page=simple_history_page'>Simple History</a></li>
-            </ul>
-            <ul id='wp-admin-bar-appearance' class="ab-submenu">
-              <li id='wp-admin-bar-themes'><a class='ab-item' href='https://equitableworld.org/wp-admin/themes.php'>Themes</a></li>
-              <li id='wp-admin-bar-widgets'><a class='ab-item' href='https://equitableworld.org/wp-admin/widgets.php'>Widgets</a></li>
-              <li id='wp-admin-bar-menus'><a class='ab-item' href='https://equitableworld.org/wp-admin/nav-menus.php'>Menus</a></li>
-            </ul>
-          </div>
-        </li>
-        <li id='wp-admin-bar-customize' class="hide-if-no-customize"><a class='ab-item' href='https://equitableworld.org/wp-admin/customize.php?url=https%3A%2F%2Fequitableworld.org%koppen%2F'>Customize</a></li>
-        <li id='wp-admin-bar-updates'><a class='ab-item' href='https://equitableworld.org/wp-admin/update-core.php'><span class="ab-icon" aria-hidden="true"></span><span class="ab-label" aria-hidden="true">3</span><span class="screen-reader-text updates-available-text">3
-              updates available</span></a></li>
-        <li id='wp-admin-bar-comments'><a class='ab-item' href='https://equitableworld.org/wp-admin/edit-comments.php'><span class="ab-icon" aria-hidden="true"></span><span class="ab-label awaiting-mod pending-count count-0" aria-hidden="true">0</span><span
-              class="screen-reader-text comments-in-moderation-text">0 Comments in moderation</span></a></li>
-        <li id='wp-admin-bar-new-content' class="menupop"><a class='ab-item' aria-haspopup="true" href='https://equitableworld.org/wp-admin/post-new.php'><span class="ab-icon" aria-hidden="true"></span><span class="ab-label">New</span></a>
-          <div class="ab-sub-wrapper">
-            <ul id='wp-admin-bar-new-content-default' class="ab-submenu">
-              <li id='wp-admin-bar-new-post'><a class='ab-item' href='https://equitableworld.org/wp-admin/post-new.php'>Post</a></li>
-              <li id='wp-admin-bar-new-media'><a class='ab-item' href='https://equitableworld.org/wp-admin/media-new.php'>Media</a></li>
-              <li id='wp-admin-bar-new-page'><a class='ab-item' href='https://equitableworld.org/wp-admin/post-new.php?post_type=page'>Page</a></li>
-              <li id='wp-admin-bar-new-jango-portfolio'><a class='ab-item' href='https://equitableworld.org/wp-admin/post-new.php?post_type=jango-portfolio'>Project</a></li>
-              <li id='wp-admin-bar-new-jango-megamenu'><a class='ab-item' href='https://equitableworld.org/wp-admin/post-new.php?post_type=jango-megamenu'>Menu</a></li>
-              <li id='wp-admin-bar-new-podcast'><a class='ab-item' href='https://equitableworld.org/wp-admin/post-new.php?post_type=podcast'>Podcast</a></li>
-              <li id='wp-admin-bar-new-user'><a class='ab-item' href='https://equitableworld.org/wp-admin/user-new.php'>User</a></li>
-            </ul>
-          </div>
-        </li>
-        <li id='wp-admin-bar-edit'><a class='ab-item' href='https://equitableworld.org/wp-admin/post.php?post=576&#038;action=edit'>Edit Page</a></li>
-        <li id='wp-admin-bar-w3tc' class="menupop"><a class='ab-item' aria-haspopup="true" href='https://equitableworld.org/wp-admin/admin.php?page=w3tc_dashboard'><span class="w3tc-icon ab-icon"></span><span class="ab-label">Performance</span></a>
-          <div class="ab-sub-wrapper">
-            <ul id='wp-admin-bar-w3tc-default' class="ab-submenu">
-              <li id='wp-admin-bar-w3tc_flush_all'><a class='ab-item' href='https://equitableworld.org/wp-admin/admin.php?page=w3tc_dashboard&#038;w3tc_flush_all&#038;_wpnonce=9c60438a6e'>Purge All Caches</a></li>
-              <li id='wp-admin-bar-w3tc_flush_current_page'><a class='ab-item' href='https://equitableworld.org/wp-admin/admin.php?page=w3tc_dashboard&#038;w3tc_flush_post&#038;post_id=576&#038;_wpnonce=9c60438a6e'>Purge Current Page</a></li>
-              <li id='wp-admin-bar-w3tc_flush' class="menupop">
-                <div class="ab-item ab-empty-item" aria-haspopup="true"><span class="wp-admin-bar-arrow" aria-hidden="true"></span>Purge Modules</div>
-                <div class="ab-sub-wrapper">
-                  <ul id='wp-admin-bar-w3tc_flush-default' class="ab-submenu">
-                    <li id='wp-admin-bar-w3tc_flush_pgcache'><a class='ab-item' href='https://equitableworld.org/wp-admin/admin.php?page=w3tc_dashboard&#038;w3tc_flush_pgcache&#038;_wpnonce=9c60438a6e'>Page Cache: All</a></li>
-                    <li id='wp-admin-bar-w3tc_pgcache_flush_post'><a class='ab-item' href='https://equitableworld.org/wp-admin/admin.php?page=w3tc_dashboard&#038;w3tc_flush_post&#038;post_id=576&#038;_wpnonce=9c60438a6e'>Page Cache: Current Page</a></li>
-                    <li id='wp-admin-bar-w3tc_flush_minify'><a class='ab-item' href='https://equitableworld.org/wp-admin/admin.php?page=w3tc_dashboard&#038;w3tc_flush_minify&#038;_wpnonce=9c60438a6e'>Minify</a></li>
-                    <li id='wp-admin-bar-w3tc_flush_objectcache'><a class='ab-item' href='https://equitableworld.org/wp-admin/admin.php?page=w3tc_dashboard&#038;w3tc_flush_objectcache&#038;_wpnonce=9c60438a6e'>Object Cache</a></li>
-                  </ul>
-                </div>
-              </li>
-              <li id='wp-admin-bar-w3tc_feature_showcase'><a class='ab-item' href='https://equitableworld.org/wp-admin/admin.php?page=w3tc_feature_showcase&#038;_wpnonce=9c60438a6e'>Feature Showcase</a></li>
-              <li id='wp-admin-bar-w3tc_settings_general'><a class='ab-item' href='https://equitableworld.org/wp-admin/admin.php?page=w3tc_general&#038;_wpnonce=9c60438a6e'>General Settings</a></li>
-              <li id='wp-admin-bar-w3tc_settings_extensions'><a class='ab-item' href='https://equitableworld.org/wp-admin/admin.php?page=w3tc_extensions&#038;_wpnonce=9c60438a6e'>Manage Extensions</a></li>
-              <li id='wp-admin-bar-w3tc_settings_faq'><a class='ab-item' href='https://equitableworld.org/wp-admin/admin.php?page=w3tc_faq&#038;_wpnonce=9c60438a6e'>FAQ</a></li>
-              <li id='wp-admin-bar-w3tc_support'><a class='ab-item' href='https://equitableworld.org/wp-admin/admin.php?page=w3tc_support'>Support</a></li>
-            </ul>
-          </div>
-        </li>
-        <li id='wp-admin-bar-wp-mail-smtp-menu'><a class='ab-item' href='https://equitableworld.org/wp-admin/admin.php?page=wp-mail-smtp'>WP Mail SMTP <div class="wp-mail-smtp-admin-bar-menu-notification-counter"><span>2</span></div></a></li>
-        <li id='wp-admin-bar-vc_inline-admin-bar-link' class="vc_inline-link"><a class='ab-item' href='https://equitableworld.org/wp-admin/post.php?vc_action=vc_inline&#038;post_id=576&#038;post_type=page'>Edit with WPBakery Page Builder</a></li>
-        <li id='wp-admin-bar-revslider' class="menupop revslider-menu"><a class='ab-item' aria-haspopup="true" href='https://equitableworld.org/wp-admin/admin.php?page=revslider'><span class="rs-label">Slider Revolution</span></a>
-          <div class="ab-sub-wrapper">
-            <ul id='wp-admin-bar-revslider-default' class="ab-submenu">
-              <li id='wp-admin-bar-home' class="revslider-sub-menu"><a class='ab-item' href='https://equitableworld.org/wp-admin/admin.php?page=revslider&#038;view=slide&#038;id=slider-1'><span class="rs-label" data-alias="home">home</span></a></li>
-            </ul>
-          </div>
-        </li>
-      </ul>
-      <ul id='wp-admin-bar-top-secondary' class="ab-top-secondary ab-top-menu">
-        <li id='wp-admin-bar-search' class="admin-bar-search">
-          <div class="ab-item ab-empty-item" tabindex="-1">
-            <form action="https://equitableworld.org/" method="get" id="adminbarsearch"><input class="adminbar-input" name="s" id="adminbar-search" type="text" value="" maxlength="150" /><label for="adminbar-search" class="screen-reader-text">Search</label><input
-                type="submit" class="adminbar-button" value="Search" /></form>
-          </div>
-        </li>
-        <li id='wp-admin-bar-my-account' class="menupop with-avatar"><a class='ab-item' aria-haspopup="true" href='https://equitableworld.org/wp-admin/profile.php'>Howdy, <span class="display-name">Patrick Zimmerman</span><img alt='' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaAQMAAACThN6NAAAABlBMVEUAAAD///+l2Z/dAAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAAxJREFUCNdjYBhoAAAAggABjtaEegAAAABJRU5ErkJggg=='
-              class='avatar avatar-26 photo lazyload' height='26' width='26' data-src="https://secure.gravatar.com/avatar/9335facf926bd59159e4af7963219598?s=26&d=mm&r=g" loading="lazy" data-srcset="https://secure.gravatar.com/avatar/9335facf926bd59159e4af7963219598?s=52&#038;d=mm&#038;r=g 2x" /><noscript><img
-                alt='' src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2026%2026'%3E%3C/svg%3E" data-src='https://secure.gravatar.com/avatar/9335facf926bd59159e4af7963219598?s=26&#038;d=mm&#038;r=g' data-srcset='https://secure.gravatar.com/avatar/9335facf926bd59159e4af7963219598?s=52&#038;d=mm&#038;r=g 2x'
-                class='avatar avatar-26 photo lazy' height='26' width='26' data-eio="l" /></noscript></a>
-          <div class="ab-sub-wrapper">
-            <ul id='wp-admin-bar-user-actions' class="ab-submenu">
-              <li id='wp-admin-bar-user-info'><a class='ab-item' tabindex="-1" href='https://equitableworld.org/wp-admin/profile.php'><img alt='' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABAAQMAAACQp+OdAAAABlBMVEUAAAD///+l2Z/dAAAAAXRSTlMAQObYZgAAAAlwSFlzAAAOxAAADsQBlSsOGwAAAA9JREFUKM9jYBgFo4B8AAACQAABjMWrdwAAAABJRU5ErkJggg=='
-                    class='avatar avatar-64 photo lazyload' height='64' width='64' data-src="https://secure.gravatar.com/avatar/9335facf926bd59159e4af7963219598?s=64&d=mm&r=g" loading="lazy" data-srcset="https://secure.gravatar.com/avatar/9335facf926bd59159e4af7963219598?s=128&#038;d=mm&#038;r=g 2x" /><noscript><img
-                      alt='' src="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3C/svg%3E" data-src='https://secure.gravatar.com/avatar/9335facf926bd59159e4af7963219598?s=64&#038;d=mm&#038;r=g'
-                      data-srcset='https://secure.gravatar.com/avatar/9335facf926bd59159e4af7963219598?s=128&#038;d=mm&#038;r=g 2x' class='avatar avatar-64 photo lazy' height='64' width='64' data-eio="l" /></noscript><span class='display-name'>Patrick
-                    Zimmerman</span><span class='username'>pzed</span></a></li>
-              <li id='wp-admin-bar-edit-profile'><a class='ab-item' href='https://equitableworld.org/wp-admin/profile.php'>Edit Profile</a></li>
-              <li id='wp-admin-bar-logout'><a class='ab-item' href='https://equitableworld.org/wp-login.php?action=logout&#038;_wpnonce=0490e87756'>Log Out</a></li>
-            </ul>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <a class="screen-reader-shortcut" href="https://equitableworld.org/wp-login.php?action=logout&#038;_wpnonce=0490e87756">Log Out</a>
-  </div>
+
 
 
   <script>
